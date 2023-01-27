@@ -1,28 +1,35 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import A from './A';
+import HeaderContainer from './HeaderContainer';
+import ImageWrapper from './ImageWrapper';
 import Img from './Img';
 import NavBar from './NavBar';
 import HeaderLink from './HeaderLink';
-import Banner from './banner.jpg';
+import BobbinsHeader from './bobbinsHeader.png';
 import messages from './messages';
 
 function Header() {
   return (
-    <div>
-      <A href="https://www.reactboilerplate.com/">
-        <Img src={Banner} alt="react-boilerplate - Logo" />
-      </A>
+    <HeaderContainer>
+      <ImageWrapper>
+        <Img src={BobbinsHeader} alt="Bobbins Logo" />
+      </ImageWrapper>
       <NavBar>
         <HeaderLink to="/">
           <FormattedMessage {...messages.home} />
         </HeaderLink>
         <HeaderLink to="/features">
-          <FormattedMessage {...messages.features} />
+          <FormattedMessage {...messages.owners} />
+        </HeaderLink>
+        <HeaderLink to="/features">
+          <FormattedMessage {...messages.customization} />
+        </HeaderLink>
+        <HeaderLink to="/features">
+          <FormattedMessage {...messages.about} />
         </HeaderLink>
       </NavBar>
-    </div>
+    </HeaderContainer>
   );
 }
 

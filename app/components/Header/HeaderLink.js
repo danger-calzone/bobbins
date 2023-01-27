@@ -17,6 +17,7 @@ export default styled(Link)`
   font-size: 16px;
   border: 2px solid #41addd;
   color: #41addd;
+  background: white;
 
   &:active {
     background: #41addd;

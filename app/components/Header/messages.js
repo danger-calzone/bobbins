@@ -12,8 +12,16 @@ export default defineMessages({
     id: `${scope}.home`,
     defaultMessage: 'Home',
   },
-  features: {
-    id: `${scope}.features`,
-    defaultMessage: 'Features',
+  owners: {
+    id: `${scope}.owners`,
+    defaultMessage: 'Owners',
+  },
+  customization: {
+    id: `${scope}.customization`,
+    defaultMessage: 'Customization',
+  },
+  about: {
+    id: `${scope}.about`,
+    defaultMessage: 'About Us',
   },
 });
