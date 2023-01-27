@@ -14,7 +14,7 @@ import messages from './messages';
 import CertTest from './MeowthCertPrev3.png';
 import AboutSection from './AboutSection';
 import AboutContent from './AboutContent';
-import ArtistImg from './ArtistImg';
+import ArtistImg from './ArtistImage';
 import MemberTitle from './MemberTitle';
 import Subheader from './Subheader';
 import TeamMemberSection from './TeamMemberSection';
@@ -47,7 +47,13 @@ export default function AboutPage() {
           />
           <AboutContent>
             <H3>Darian</H3>
-						<p>this is a long test this is a long test this is a long test this is a long test this is a long test this is a long test this is a long test this is a long test this is a long test this is a long test this is a long test this is a long test this is a long test this is a long test this is a long test this is a long test </p>
+            <p>
+              this is a long test this is a long test this is a long test this
+              is a long test this is a long test this is a long test this is a
+              long test this is a long test this is a long test this is a long
+              test this is a long test this is a long test this is a long test
+              this is a long test this is a long test this is a long test
+            </p>
           </AboutContent>
         </AboutSection>
       </TeamMemberSection>
