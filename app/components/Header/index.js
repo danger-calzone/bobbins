@@ -25,7 +25,7 @@ function Header() {
         <HeaderLink to="/features">
           <FormattedMessage {...messages.customization} />
         </HeaderLink>
-        <HeaderLink to="/features">
+        <HeaderLink to="/about">
           <FormattedMessage {...messages.about} />
         </HeaderLink>
       </NavBar>

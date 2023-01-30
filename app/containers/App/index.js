@@ -25,6 +25,7 @@ const AppWrapper = styled.div`
   max-width: calc(768px + 16px * 2);
   margin: 0 auto;
   display: flex;
+  color: #595959;
   min-height: 100%;
   padding: 0 16px;
   flex-direction: column;
@@ -42,8 +43,8 @@ export default function App() {
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route path="/features" component={FeaturePage} />
-        <Route path="/about" component={AboutPage} />
+        <Route exact path="/features" component={FeaturePage} />
+        <Route exact path="/about" component={AboutPage} />
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />
