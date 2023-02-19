@@ -12,12 +12,13 @@ import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
 import AboutPage from 'containers/AboutPage/Loadable';
-import HomePage from 'containers/HomePage/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
+import HomePage from 'containers/HomePage/Loadable';
+import LoginPage from 'containers/LoginPage';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import Header from 'components/Header';
-import Footer from 'components/Footer';
+// import Footer from 'components/Footer';
 
 import GlobalStyle from '../../global-styles';
 
@@ -43,11 +44,12 @@ export default function App() {
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/features" component={FeaturePage} />
         <Route exact path="/about" component={AboutPage} />
+        <Route exact path="/features" component={FeaturePage} />
+        <Route exact path="/login" component={LoginPage} />
         <Route path="" component={NotFoundPage} />
       </Switch>
-      <Footer />
+      {/* <Footer /> */}
       <GlobalStyle />
     </AppWrapper>
   );
