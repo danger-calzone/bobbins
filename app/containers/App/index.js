@@ -54,3 +54,96 @@ export default function App() {
     </AppWrapper>
   );
 }
+
+// const Dashboard = ({ token, logout }) => {
+//   const [message, setMessage] = useState('');
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const response = await axios.get('http://localhost:3000/dashboard', {
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         });
+//         setMessage(response.data.message);
+//       } catch (error) {
+//         console.error(error);
+//         logout();
+//       }
+//     };
+
+//     fetchData();
+//   }, [token, logout]);
+
+//   return (
+//     <div>
+//       <h2>Dashboard</h2>
+//       <p>{message}</p>
+//     </div>
+//   );
+// };
+
+// const App = () => {
+//   const [token, setToken] = useState('');
+
+//   const login = token => {
+//     setToken(token);
+//   };
+
+//   const logout = () => {
+//     setToken('');
+//   };
+
+//   const isAuthenticated = !!token;
+
+//   return (
+//     <Router>
+//       <div>
+//         <nav>
+//           <ul>
+//             <li>
+//               <Link to="/">Home</Link>
+//             </li>
+//             {!isAuthenticated && (
+//               <li>
+//                 <Link to="/login">Login</Link>
+//               </li>
+//             )}
+//             {isAuthenticated && (
+//               <li>
+//                 <Link to="/dashboard">Dashboard</Link>
+//               </li>
+//             )}
+//             {isAuthenticated && (
+//               <li>
+//                 <button onClick={logout}>Logout</button>
+//               </li>
+//             )}
+//           </ul>
+//         </nav>
+
+//         <Switch>
+//           <Route exact path="/">
+//             <h2>Home</h2>
+//           </Route>
+//           {!isAuthenticated && (
+//             <Route path="/login">
+//               <Login login={login} />
+//             </Route>
+//           )}
+//           {isAuthenticated && (
+//             <Route path="/dashboard">
+//               <Dashboard token={token} logout={logout} />
+//             </Route>
+//           )}
+//           <Route>
+//             <Redirect to="/" />
+//           </Route>
+//         </Switch>
+//       </div>
+//     </Router>
+//   );
+// };
+
+// export default App;
