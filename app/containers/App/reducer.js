@@ -12,9 +12,10 @@ import { LOAD_REPOS_SUCCESS, LOAD_REPOS, LOAD_REPOS_ERROR } from './constants';
 
 // The initial state of the App
 export const initialState = {
-  loading: false,
-  error: false,
   currentUser: false,
+  error: false,
+  loading: false,
+  isLoggedIn: false,
   userData: {
     repositories: false,
   },

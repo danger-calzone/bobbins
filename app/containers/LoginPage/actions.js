@@ -1,4 +1,21 @@
-import { ON_CHANGE } from './constants';
+import {
+  LOGIN_REQUEST,
+  LOGIN_FAILURE,
+  LOGIN_SUCCESS,
+  ON_CHANGE,
+} from './constants';
+
+export function loginRequest({ password, username }) {
+  return { payload: { password, username }, type: LOGIN_REQUEST };
+}
+
+export function loginFailure() {
+  return { type: LOGIN_FAILURE };
+}
+
+export function loginSuccess() {
+  return { type: LOGIN_SUCCESS };
+}
 
 /**
  * Changes the input field of the form

@@ -4,45 +4,32 @@
  * This is the first thing users see of our App, at the '/' route
  */
 
-import React, { useState, memo } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-// import { Helmet } from 'react-helmet';
-// import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-// import { createStructuredSelector } from 'reselect';
+import { createStructuredSelector } from 'reselect';
 
 import { useInjectReducer } from 'utils/injectReducer';
-import axios from 'axios';
+import { useInjectSaga } from 'utils/injectSaga';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormWrapper from './FormWrapper';
-import { onChange } from './actions';
+import { loginRequest, onChange } from './actions';
 import reducer from './reducer';
+import saga from './saga';
+import { makeSelectPassword, makeSelectUsername } from './selectors';
 
 const key = 'login';
 
-export function LoginPage() {
+const LoginPage = ({
+  dispatchLoginRequest,
+  dispatchOnChange,
+  password,
+  username,
+}) => {
   useInjectReducer({ key, reducer });
-  // useInjectSaga({ key, saga });
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = async e => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post('http://localhost:3000/api/login', {
-        username,
-        password,
-      });
-      const { token } = response.data;
-      // console.log(token);
-      // login(token);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  useInjectSaga({ key, saga });
 
   return (
     <FormWrapper>
@@ -50,7 +37,9 @@ export function LoginPage() {
       <TextField
         id="login-username"
         label="Username"
-        onChange={e => setUsername(e.target.value)}
+        onChange={e =>
+          dispatchOnChange({ input: 'username', value: e.target.value })
+        }
         placeholder="required"
         value={username}
         variant="outlined"
@@ -59,25 +48,40 @@ export function LoginPage() {
       <TextField
         id="login-password"
         label="Password"
-        onChange={e => setPassword(e.target.value)}
+        onChange={e =>
+          dispatchOnChange({ input: 'password', value: e.target.value })
+        }
         placeholder="required"
         value={password}
         variant="outlined"
       />
-      <Button onClick={handleLogin}>Login</Button>
+      <Button onClick={() => dispatchLoginRequest({ password, username })}>
+        Login
+      </Button>
     </FormWrapper>
   );
-}
+};
 
-export function mapDispatchToProps(dispatch) {
-  return {
-    dispatchOnChange: (evt, input) =>
-      dispatch(onChange({ input, value: evt.target.value })),
-  };
-}
+LoginPage.propTypes = {
+  dispatchLoginRequest: PropTypes.func.isRequired,
+  dispatchOnChange: PropTypes.func.isRequired,
+  password: PropTypes.string,
+  username: PropTypes.string,
+};
+
+const mapStateToProps = createStructuredSelector({
+  password: makeSelectPassword(),
+  username: makeSelectUsername(),
+});
+
+const mapDispatchToProps = dispatch => ({
+  dispatchLoginRequest: ({ password, username }) =>
+    dispatch(loginRequest({ password, username })),
+  dispatchOnChange: ({ input, value }) => dispatch(onChange({ input, value })),
+});
 
 const withConnect = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 );
 
