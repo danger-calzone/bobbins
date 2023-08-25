@@ -5,8 +5,8 @@ import {
   ON_CHANGE,
 } from './constants';
 
-export function loginRequest({ password, username }) {
-  return { payload: { password, username }, type: LOGIN_REQUEST };
+export function loginRequest({ history, password, username }) {
+  return { payload: { history, password, username }, type: LOGIN_REQUEST };
 }
 
 export function loginFailure() {

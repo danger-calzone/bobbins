@@ -25,6 +25,7 @@ const key = 'login';
 const LoginPage = ({
   dispatchLoginRequest,
   dispatchOnChange,
+  history,
   password,
   username,
 }) => {
@@ -55,7 +56,9 @@ const LoginPage = ({
         value={password}
         variant="outlined"
       />
-      <Button onClick={() => dispatchLoginRequest({ password, username })}>
+      <Button
+        onClick={() => dispatchLoginRequest({ history, password, username })}
+      >
         Login
       </Button>
     </FormWrapper>
@@ -65,6 +68,7 @@ const LoginPage = ({
 LoginPage.propTypes = {
   dispatchLoginRequest: PropTypes.func.isRequired,
   dispatchOnChange: PropTypes.func.isRequired,
+  history: PropTypes.object,
   password: PropTypes.string,
   username: PropTypes.string,
 };
@@ -75,8 +79,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  dispatchLoginRequest: ({ password, username }) =>
-    dispatch(loginRequest({ password, username })),
+  dispatchLoginRequest: ({ history, password, username }) =>
+    dispatch(loginRequest({ history, password, username })),
   dispatchOnChange: ({ input, value }) => dispatch(onChange({ input, value })),
 });
 

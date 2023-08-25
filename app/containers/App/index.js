@@ -9,13 +9,14 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 
 import AboutPage from 'containers/AboutPage/Loadable';
+import Dashboard from 'containers/Dashboard/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import HomePage from 'containers/HomePage/Loadable';
 import LoginPage from 'containers/LoginPage';
@@ -49,14 +50,18 @@ function App({ isLoggedIn }) {
         <meta name="description" content="A React.js Boilerplate application" />
       </Helmet>
       <Header />
-      <Switch>
-        {isLoggedIn && <Route exact path="/dashboard" component={HomePage} />}
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/about" component={AboutPage} />
-        <Route exact path="/features" component={FeaturePage} />
-        <Route exact path="/login" component={LoginPage} />
-        <Route path="" component={NotFoundPage} />
-      </Switch>
+      <BrowserRouter>
+        <Switch>
+          {isLoggedIn && (
+            <Route exact path="/dashboard" component={Dashboard} />
+          )}
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/about" component={AboutPage} />
+          <Route exact path="/features" component={FeaturePage} />
+          <Route exact path="/login" component={LoginPage} />
+          <Route path="" component={NotFoundPage} />
+        </Switch>
+      </BrowserRouter>
       {/* <Footer /> */}
       <GlobalStyle />
     </AppWrapper>
