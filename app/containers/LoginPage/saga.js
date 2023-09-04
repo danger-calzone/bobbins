@@ -23,7 +23,7 @@ export function* loginSaga({ payload }) {
     yield put(updateSession({ isLoggedIn: true }));
     history.push('/dashboard');
   } catch (err) {
-    yield put(loginFailure(err));
+    yield put(loginFailure({ errorMessage: err.message }));
   }
 }
 

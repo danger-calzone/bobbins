@@ -29,6 +29,17 @@ function checkStatus(response) {
   throw error;
 }
 
+function handleError(error) {
+  // Handle the error here, e.g., display an error message to the user
+  if (error.response && error.response.status === 401) {
+    return error.response.json().then(data => {
+      throw new Error(data.error);
+    });
+  }
+  // Handle other errors
+  throw error;
+}
+
 /**
  * Requests a URL, returning a promise
  *
@@ -37,8 +48,32 @@ function checkStatus(response) {
  *
  * @return {object}           The response data
  */
-export default function request(url, options) {
+export function get(url, options) {
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON);
+}
+
+/**
+ * Requests a URL, returning a promise
+ *
+ * @param  {string} url       The URL we want to request
+ * @param  {object} [options] The options we want to pass to "fetch"
+ *
+ * @return {object}           The response data
+ */
+export function post(url, options) {
+  const { payload } = options;
+  // debugger;
+  return fetch(url, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+    method: 'POST',
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .catch(handleError);
 }

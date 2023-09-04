@@ -7,6 +7,12 @@ import { initialState } from './reducer';
 
 const selectLogin = state => state.login || initialState;
 
+const makeSelectError = () =>
+  createSelector(
+    selectLogin,
+    loginState => loginState.error,
+  );
+
 const makeSelectPassword = () =>
   createSelector(
     selectLogin,
@@ -19,4 +25,16 @@ const makeSelectUsername = () =>
     loginState => loginState.username,
   );
 
-export { selectLogin, makeSelectPassword, makeSelectUsername };
+const makeSelectStatus = () =>
+  createSelector(
+    selectLogin,
+    loginState => loginState.status,
+  );
+
+export {
+  selectLogin,
+  makeSelectError,
+  makeSelectPassword,
+  makeSelectUsername,
+  makeSelectStatus,
+};

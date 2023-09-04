@@ -3,14 +3,15 @@ import {
   LOGIN_FAILURE,
   LOGIN_SUCCESS,
   ON_CHANGE,
+  RESET_ERRORS,
 } from './constants';
 
 export function loginRequest({ history, password, username }) {
   return { payload: { history, password, username }, type: LOGIN_REQUEST };
 }
 
-export function loginFailure() {
-  return { type: LOGIN_FAILURE };
+export function loginFailure({ errorMessage }) {
+  return { payload: { errorMessage }, type: LOGIN_FAILURE };
 }
 
 export function loginSuccess() {
@@ -26,8 +27,11 @@ export function loginSuccess() {
  */
 export function onChange({ input, value }) {
   return {
+    payload: { input, value },
     type: ON_CHANGE,
-    input,
-    value,
   };
+}
+
+export function resetErrors() {
+  return { type: RESET_ERRORS };
 }

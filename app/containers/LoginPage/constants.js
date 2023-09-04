@@ -13,3 +13,4 @@ export const LOGIN_REQUEST = 'bobbins/LoginPage/LOGIN_REQUEST';
 export const LOGIN_FAILURE = 'bobbins/LoginPage/LOGIN_FAILURE';
 export const LOGIN_SUCCESS = 'bobbins/LoginPage/LOGIN_SUCCESS';
 export const ON_CHANGE = 'bobbins/LoginPage/ON_CHANGE';
+export const RESET_ERRORS = 'bobbins/LoginPage/RESET_ERRORS';
