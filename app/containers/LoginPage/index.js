@@ -12,7 +12,14 @@ import { createStructuredSelector } from 'reselect';
 
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
-import { Alert, IconButton, InputAdornment, TextField } from '@mui/material';
+import {
+  Alert,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import FormWrapper from './FormWrapper';
@@ -52,41 +59,45 @@ const LoginPage = ({
           {error}
         </Alert>
       )}
-      <TextField
-        id="login-username"
-        label="Username"
-        onChange={e =>
-          dispatchOnChange({ input: 'username', value: e.target.value })
-        }
-        onFocus={dispatchResetErrors}
-        placeholder="required"
-        value={username}
-        variant="outlined"
-      />
+      <FormControl>
+        <InputLabel htmlFor="filled-adornment-Username">Username</InputLabel>
+        <OutlinedInput
+          id="login-username"
+          label="Username"
+          onChange={e =>
+            dispatchOnChange({ input: 'username', value: e.target.value })
+          }
+          onFocus={dispatchResetErrors}
+          placeholder="required"
+          value={username}
+        />
+      </FormControl>
       <br />
-      <TextField
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleClickShowPassword}
-              edge="end"
-            >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
-          </InputAdornment>
-        }
-        id="login-password"
-        label="Password"
-        onChange={e =>
-          dispatchOnChange({ input: 'password', value: e.target.value })
-        }
-        onFocus={dispatchResetErrors}
-        placeholder="required"
-        type={showPassword ? 'text' : 'password'}
-        value={password}
-        variant="outlined"
-      />
+      <FormControl>
+        <InputLabel htmlFor="filled-adornment-Password">Password</InputLabel>
+        <OutlinedInput
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+          id="login-password"
+          label="Password"
+          onChange={e =>
+            dispatchOnChange({ input: 'password', value: e.target.value })
+          }
+          onFocus={dispatchResetErrors}
+          placeholder="required"
+          type={showPassword ? 'text' : 'password'}
+          value={password}
+        />
+      </FormControl>
       <LoadingButton
         loading={status === 'loading'}
         onClick={() => dispatchLoginRequest({ history, password, username })}
