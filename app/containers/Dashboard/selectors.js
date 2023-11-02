@@ -13,4 +13,10 @@ const makeSelectUsername = () =>
     loginState => loginState.username,
   );
 
-export { selectDashboard, makeSelectUsername };
+const makeSelectBobbins = () =>
+  createSelector(
+    selectDashboard,
+    dashboardState => dashboardState.bobbins,
+  );
+
+export { selectDashboard, makeSelectBobbins, makeSelectUsername };

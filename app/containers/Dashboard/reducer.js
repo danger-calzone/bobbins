@@ -8,6 +8,7 @@ import {
 // The initial state of the App
 export const initialState = {
   error: '',
+  bobbins: [],
   username: 'test',
   status: 'idle',
 };
@@ -26,6 +27,7 @@ const dashboardReducer = (state = initialState, action) =>
         break;
       case FETCH_BOBBINS_SUCCESS:
         draft.status = 'resolved';
+        draft.bobbins = action.payload.images;
         break;
     }
   });
