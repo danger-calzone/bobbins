@@ -36,12 +36,17 @@ const Dashboard = ({ bobbins, dispatchFetchBobbins, username }) => {
     <>
       <H1>{`${username}'s bobbins`}</H1>
       <BobbinsWrapper>
-        {bobbins.map((bobbin, i) => (
-          <BobbinsThumbnail
-            key={`${username}-bobbin-${i + 1}`}
-            alt={`img-test-${i + 1}`}
-            src={bobbin}
-          />
+        {bobbins.map(({ id, image }) => (
+          <a
+            key={`bobbin-link-${id}`}
+            href={`${window.location.origin}/bobbins/${id}`}
+          >
+            <BobbinsThumbnail
+              key={`bobbin-${id}`}
+              alt={`img-test-${id}`}
+              src={image}
+            />
+          </a>
         ))}
       </BobbinsWrapper>
     </>

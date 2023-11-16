@@ -16,6 +16,7 @@ import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 
 import AboutPage from 'containers/AboutPage/Loadable';
+import BobbinPage from 'containers/BobbinPage/Loadable';
 import Dashboard from 'containers/Dashboard/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import HomePage from 'containers/HomePage/Loadable';
@@ -59,6 +60,7 @@ function App({ isLoggedIn }) {
           <Route exact path="/about" component={AboutPage} />
           <Route exact path="/features" component={FeaturePage} />
           <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/bobbins/:bobbinId" component={BobbinPage} />
           <Route path="" component={NotFoundPage} />
         </Switch>
       </BrowserRouter>
