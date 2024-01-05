@@ -7,7 +7,15 @@ import {
 
 // The initial state of the App
 export const initialState = {
-  bobbinInfo: {},
+  bobbinInfo: {
+    name: '',
+    owner: '',
+    artists: [],
+    expression: '',
+    mutations: [],
+    clothing: [],
+    image: '',
+  },
   error: '',
   status: 'idle',
 };
