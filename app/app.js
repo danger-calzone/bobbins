@@ -10,15 +10,22 @@ import '@babel/polyfill';
 
 // Import all the third party stuff
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import FontFaceObserver from 'fontfaceobserver';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
 import App from 'containers/App';
+import AboutPage from 'containers/AboutPage/Loadable';
+// import BobbinPage from 'containers/BobbinPage/Loadable';
+import Dashboard from 'containers/Dashboard/Loadable';
+import FeaturePage from 'containers/FeaturePage/Loadable';
+// import HomePage from 'containers/HomePage/Loadable';
+import LoginPage from 'containers/LoginPage';
+// import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
@@ -41,21 +48,40 @@ openSansObserver.load().then(() => {
   document.body.classList.add('fontLoaded');
 });
 
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Dashboard />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/features',
+    element: <FeaturePage />,
+  },
+  {
+    path: '/about',
+    element: <AboutPage />,
+  },
+]);
+
 // Create redux store with history
 const initialState = {};
 const store = configureStore(initialState, history);
-const MOUNT_NODE = document.getElementById('app');
+const container = document.getElementById('app');
+const root = createRoot(container);
 
 const render = messages => {
-  ReactDOM.render(
+  root.render(
     <Provider store={store}>
       <LanguageProvider messages={messages}>
-        <ConnectedRouter history={history}>
+        <RouterProvider router={router}>
           <App />
-        </ConnectedRouter>
+        </RouterProvider>
       </LanguageProvider>
     </Provider>,
-    MOUNT_NODE,
   );
 };
 
@@ -64,7 +90,7 @@ if (module.hot) {
   // modules.hot.accept does not accept dynamic dependencies,
   // have to be constants at compile-time
   module.hot.accept(['./i18n', 'containers/App'], () => {
-    ReactDOM.unmountComponentAtNode(MOUNT_NODE);
+    root.unmount();
     render(translationMessages);
   });
 }

@@ -9,23 +9,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
-import PropTypes from 'prop-types';
-
-import AboutPage from 'containers/AboutPage/Loadable';
-import BobbinPage from 'containers/BobbinPage/Loadable';
-import Dashboard from 'containers/Dashboard/Loadable';
-import FeaturePage from 'containers/FeaturePage/Loadable';
-import HomePage from 'containers/HomePage/Loadable';
-import LoginPage from 'containers/LoginPage';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import Header from 'components/Header';
-
-import { makeSelectGlobal } from './selectors';
 
 // import Footer from 'components/Footer';
 
@@ -41,7 +28,7 @@ const AppWrapper = styled.div`
   flex-direction: column;
 `;
 
-function App({ isLoggedIn }) {
+function App() {
   return (
     <AppWrapper>
       <Helmet
@@ -51,35 +38,14 @@ function App({ isLoggedIn }) {
         <meta name="description" content="A React.js Boilerplate application" />
       </Helmet>
       <Header />
-      <BrowserRouter>
-        <Switch>
-          {isLoggedIn && (
-            <Route exact path="/dashboard" component={Dashboard} />
-          )}
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/about" component={AboutPage} />
-          <Route exact path="/features" component={FeaturePage} />
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/bobbins/:bobbinId" component={BobbinPage} />
-          <Route path="" component={NotFoundPage} />
-        </Switch>
-      </BrowserRouter>
       {/* <Footer /> */}
       <GlobalStyle />
     </AppWrapper>
   );
 }
 
-App.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = createStructuredSelector({
-  isLoggedIn: makeSelectGlobal('isLoggedIn'),
-});
-
 const withConnect = connect(
-  mapStateToProps,
+  null,
   null,
 );
 
