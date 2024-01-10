@@ -19,6 +19,7 @@ import 'sanitize.css/sanitize.css';
 
 // Import root app
 import App from 'containers/App';
+import Header from 'components/Header';
 import AboutPage from 'containers/AboutPage/Loadable';
 // import BobbinPage from 'containers/BobbinPage/Loadable';
 import Dashboard from 'containers/Dashboard/Loadable';
@@ -51,19 +52,25 @@ openSansObserver.load().then(() => {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Dashboard />,
-  },
-  {
-    path: '/login',
-    element: <LoginPage />,
-  },
-  {
-    path: '/features',
-    element: <FeaturePage />,
-  },
-  {
-    path: '/about',
-    element: <AboutPage />,
+    element: <Header />,
+    children: [
+      {
+        path: 'login',
+        element: <LoginPage />,
+      },
+      {
+        path: 'dashboard',
+        element: <Dashboard />,
+      },
+      {
+        path: 'features',
+        element: <FeaturePage />,
+      },
+      {
+        path: 'about',
+        element: <AboutPage />,
+      },
+    ],
   },
 ]);
 
