@@ -20,7 +20,7 @@ import 'sanitize.css/sanitize.css';
 // Import root app
 import App from 'containers/App';
 import AboutPage from 'containers/AboutPage/Loadable';
-// import BobbinPage from 'containers/BobbinPage/Loadable';
+import BobbinPage from 'containers/BobbinPage/Loadable';
 import Dashboard from 'containers/Dashboard/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 // import HomePage from 'containers/HomePage/Loadable';
@@ -69,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: 'about',
         element: <AboutPage />,
+      },
+      {
+        path: 'bobbins/:bobbinId',
+        element: <BobbinPage />,
       },
     ],
   },
