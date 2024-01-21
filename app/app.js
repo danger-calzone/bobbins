@@ -19,13 +19,13 @@ import 'sanitize.css/sanitize.css';
 
 // Import root app
 import App from 'containers/App';
-import Header from 'components/Header';
 import AboutPage from 'containers/AboutPage/Loadable';
 // import BobbinPage from 'containers/BobbinPage/Loadable';
 import Dashboard from 'containers/Dashboard/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 // import HomePage from 'containers/HomePage/Loadable';
 import LoginPage from 'containers/LoginPage';
+import Header from 'components/Header';
 // import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 // Import Language Provider

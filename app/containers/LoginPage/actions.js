@@ -6,8 +6,8 @@ import {
   RESET_ERRORS,
 } from './constants';
 
-export function loginRequest({ history, password, username }) {
-  return { payload: { history, password, username }, type: LOGIN_REQUEST };
+export function loginRequest({ navigate, password, username }) {
+  return { payload: { navigate, password, username }, type: LOGIN_REQUEST };
 }
 
 export function loginFailure({ errorMessage }) {

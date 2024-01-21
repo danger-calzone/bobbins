@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import { useNavigate } from 'react-router-dom';
 
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
@@ -22,6 +23,7 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LoadingButton from '@mui/lab/LoadingButton';
+
 import FormWrapper from './FormWrapper';
 import { loginRequest, onChange, resetErrors } from './actions';
 import reducer from './reducer';
@@ -40,7 +42,6 @@ const LoginPage = ({
   dispatchLoginRequest,
   dispatchOnChange,
   dispatchResetErrors,
-  history,
   password,
   username,
   status,
@@ -50,6 +51,7 @@ const LoginPage = ({
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword(show => !show);
+  const navigate = useNavigate();
 
   return (
     <FormWrapper>
@@ -100,7 +102,7 @@ const LoginPage = ({
       </FormControl>
       <LoadingButton
         loading={status === 'loading'}
-        onClick={() => dispatchLoginRequest({ history, password, username })}
+        onClick={() => dispatchLoginRequest({ navigate, password, username })}
       >
         <span>Login</span>
       </LoadingButton>
@@ -113,7 +115,6 @@ LoginPage.propTypes = {
   dispatchLoginRequest: PropTypes.func.isRequired,
   dispatchOnChange: PropTypes.func.isRequired,
   dispatchResetErrors: PropTypes.func.isRequired,
-  history: PropTypes.object,
   password: PropTypes.string,
   username: PropTypes.string,
   status: PropTypes.string.isRequired,
@@ -127,8 +128,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  dispatchLoginRequest: ({ history, password, username }) =>
-    dispatch(loginRequest({ history, password, username })),
+  dispatchLoginRequest: ({ navigate, password, username }) =>
+    dispatch(loginRequest({ navigate, password, username })),
   dispatchOnChange: ({ input, value }) => dispatch(onChange({ input, value })),
   dispatchResetErrors: () => dispatch(resetErrors()),
 });

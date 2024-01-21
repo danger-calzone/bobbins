@@ -14,14 +14,14 @@ import { LOGIN_REQUEST } from './constants';
  * Github repos request/response handler
  */
 export function* loginSaga({ payload }) {
-  const { history, password, username } = payload;
+  const { navigate, password, username } = payload;
   try {
     yield call(post, 'http://localhost:3000/api/login', {
       payload: { password, username },
     });
     yield put(loginSuccess());
     yield put(updateSession({ isLoggedIn: true }));
-    history.push('/dashboard');
+    navigate('/dashboard');
   } catch (err) {
     yield put(loginFailure({ errorMessage: err.message }));
   }
