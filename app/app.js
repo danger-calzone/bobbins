@@ -25,7 +25,7 @@ import Dashboard from 'containers/Dashboard/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 // import HomePage from 'containers/HomePage/Loadable';
 import LoginPage from 'containers/LoginPage';
-import Header from 'components/Header';
+import Navigation from 'containers/Navigation';
 // import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 // Import Language Provider
@@ -52,7 +52,7 @@ openSansObserver.load().then(() => {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Header />,
+    element: <Navigation />,
     children: [
       {
         path: 'login',
