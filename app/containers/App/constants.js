@@ -10,3 +10,5 @@
  */
 
 export const UPDATE_SESSION = 'bobbins/App/UPDATE_SESSION';
+
+export const LOGOUT = 'bobbins/App/LOGOUT';

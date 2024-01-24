@@ -15,7 +15,14 @@
  *    }
  */
 
-import { UPDATE_SESSION } from './constants';
+import { LOGOUT, UPDATE_SESSION } from './constants';
+
+export function logout({ navigate }) {
+  return {
+    payload: { navigate },
+    type: LOGOUT,
+  };
+}
 
 export function updateSession({ isLoggedIn }) {
   return {
