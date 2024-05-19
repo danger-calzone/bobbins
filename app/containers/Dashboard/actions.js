@@ -12,6 +12,6 @@ export function fetchBobbinsFailure({ errorMessage }) {
   return { payload: { errorMessage }, type: FETCH_BOBBINS_FAILURE };
 }
 
-export function fetchBobbinsSuccess({ images }) {
-  return { payload: { images }, type: FETCH_BOBBINS_SUCCESS };
+export function fetchBobbinsSuccess({ bobbins }) {
+  return { payload: { bobbins }, type: FETCH_BOBBINS_SUCCESS };
 }

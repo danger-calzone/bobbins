@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.NUMBER,
         allowNull: false,
       },
+      imageSrc: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       tableName: 'Bobbins', // Ensure this matches the table name in your migration

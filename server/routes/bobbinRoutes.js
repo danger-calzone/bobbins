@@ -7,7 +7,7 @@ router.get('/', bobbinController.getAllBobbins);
 // Route to get a bobbin by ID
 router.get('/:id', bobbinController.getBobbinById);
 // Route to get all bobbins by owner ID
-router.get('/owner/:id', bobbinController.getBobbinsByOwnerId);
+router.get('/owner/:ownerId', bobbinController.getBobbinsByOwnerId);
 // Route to create a new bobbin
 router.post('/', bobbinController.createBobbin);
 // Route to update a bobbin by ID

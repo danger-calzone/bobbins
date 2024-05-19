@@ -27,7 +27,7 @@ const dashboardReducer = (state = initialState, action) =>
         break;
       case FETCH_BOBBINS_SUCCESS:
         draft.status = 'resolved';
-        draft.bobbins = action.payload.images;
+        draft.bobbins = action.payload.bobbins;
         break;
     }
   });
