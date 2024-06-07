@@ -1,7 +1,9 @@
 const express = require('express');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const session = require('express-session');
+const passportJWT = require('passport-jwt');
+const JWTStrategy = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -30,7 +32,7 @@ db.authenticate()
 const ngrok =
   (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel
     ? // eslint-disable-next-line import/order
-      require('ngrok')
+    require('ngrok')
     : false;
 require('dotenv').config();
 
@@ -47,66 +49,63 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(
-  cors(),
-  // cors({
-  //   origin: 'https://yourtrusteddomain.com', // Restrict domains
-  //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  //   allowedHeaders: 'Content-Type,Authorization',
-  // }),
-);
-
-// Set up the express-session middleware
-app.use(
-  session({
-    secret: process.env.ACCESS_TOKEN_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: true, // Set to true if you are using HTTPS
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    },
+  cors({
+    origin: 'http://localhost:3000', // Restrict domains
+    credentials: true,
+    methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200,
   }),
 );
+
+const opts = {
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.ACCESS_TOKEN_SECRET,
+};
 
 // Set up Passport.js middleware
 app.use(passport.initialize());
-app.use(passport.session());
 
 passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    try {
-      const user = await User.findOne({ where: { username } });
+  new LocalStrategy(
+    {
+      usernameField: 'username', // Field name for the username in the request body
+      passwordField: 'password', // Field name for the password in the request body
+    },
+    async (username, password, done) => {
+      try {
+        // Find the user in the database by username
+        const user = await User.findOne({ where: { username } });
 
-      if (!user) {
-        return done(null, false, {
-          message:
-            'Benevolent dictator has decreed your login information is incorrect.',
-        });
+        // If user is not found, return authentication failure
+        if (!user) {
+          return done(null, false, { message: 'Incorrect username.' });
+        }
+
+        // Compare the hashed password in the database with the provided password
+        const passwordMatch = await bcrypt.compare(password, user.passwordHash);
+
+        // If passwords don't match, return authentication failure
+        if (!passwordMatch) {
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+
+        // If authentication is successful, return the authenticated user
+        return done(null, user);
+      } catch (error) {
+        // If an error occurs, return it to the next middleware
+        return done(error);
       }
-
-      const passwordMatch = bcrypt.compareSync(password, user.passwordHash);
-      if (!passwordMatch) {
-        return done(null, false, {
-          message:
-            'Benevolent dictator has decreed your login information is incorrect.',
-        });
-      }
-
-      return done(null, user);
-    } catch (error) {
-      console.error('Error in authentication:', error);
-      return done(error);
-    }
-  }),
+    },
+  ),
 );
 
-// Serialize user into the sessions
+// Serialize user into the session
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-// Deserialize user from the sessions
+// Deserialize user from the session
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findByPk(id);
@@ -116,60 +115,64 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-const generateToken = user =>
-  jwt.sign(
-    { id: user.id, username: user.username },
-    process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: '1h' },
-  );
+passport.use(
+  new JWTStrategy(opts, (jwtPayload, done) => {
+    // Example verification logic, you would typically check the database for the user
+    User.findByPk(jwtPayload.id)
+      .then(user => {
+        if (user) {
+          // User found, do something with the user object
+          console.log(user.toJSON()); // Example: Log user details
+          return done(null, user);
+        }
+        // User not found
+        console.log('User not found');
+        return done(null, false);
+      })
+      .catch(error => {
+        // Handle any errors that occur during the query
+        console.error('Error finding user by ID:', error);
+        return done(error, false);
+      });
+  }),
+);
 
-// Middleware to authenticate token
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN_VALUE
-
-  if (token == null) {
-    return res.sendStatus(401); // if no token, return unauthorized
-  }
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+// TODO: Input validation
+app.post('/api/login', (req, res, next) => {
+  passport.authenticate('local', { session: false }, (err, user, info) => {
     if (err) {
-      return res.sendStatus(403); // if token is not valid or expired
-    }
-
-    req.user = user; // set the user to req.user
-    next(); // proceed to the next middleware
-  });
-};
-
-app.post('/api/login', loginLimiter, (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) {
-      return next(err); // Handle unexpected errors
+      console.error('Error during authentication:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
     }
 
     if (!user) {
       // Authentication failed: Send an error response
-      return res.status(401).json({ error: info.message });
+      return res
+        .status(401)
+        .json({ error: 'Authentication failed', message: info.message });
     }
-
-    // Authentication succeeded: Generate token or redirect
-    const token = generateToken(user);
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: true, // Set to true if using HTTPS
+    // Generate a signed JSON Web Token (JWT) with the user's ID
+    const token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: '1h',
     });
-    return res.status(200).send({ message: 'Authentication successful' });
+
+    // Send the token in the response
+    return res.status(200).json({ token });
   })(req, res, next);
 });
 
-app.post('/api/logout', (req, res) => {
-  try {
-    req.logout(() => res.send({ message: 'success' }));
-  } catch (error) {
-    console.log('SERVER ERROR:', error);
-  }
-});
+app.post(
+  '/api/logout',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    try {
+      req.logout();
+      res.status(200).json({ message: 'Success' });
+    } catch (error) {
+      res.status(500).json({ error: 'Logout failed' });
+    }
+  },
+);
 
 app.post('/api/register', authenticateRegistration, async (req, res) => {
   try {
@@ -199,7 +202,11 @@ app.post('/api/register', authenticateRegistration, async (req, res) => {
   }
 });
 
-app.use('/api/bobbins', authenticateToken, bobbinRoutes);
+app.use(
+  '/api/bobbins',
+  passport.authenticate('jwt', { session: false }),
+  bobbinRoutes,
+);
 
 // error middleware
 app.use((err, req, res, next) => {

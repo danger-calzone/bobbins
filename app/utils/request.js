@@ -48,8 +48,20 @@ function handleError(error) {
  *
  * @return {object}           The response data
  */
-export function get(url, options) {
-  return fetch(url, options)
+export function get(url, options = {}) {
+  const headers = {
+    'Content-Type': 'application/json',
+    ...options.headers,
+  };
+  if (options.token) {
+    headers.Authorization = `Bearer ${options.token}`;
+  }
+  return fetch(url, {
+    headers,
+    credentials: 'include',
+    method: 'GET',
+    ...options,
+  })
     .then(checkStatus)
     .then(parseJSON);
 }

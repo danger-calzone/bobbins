@@ -48,6 +48,7 @@ const LoginPage = ({
 }) => {
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
+
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword(show => !show);

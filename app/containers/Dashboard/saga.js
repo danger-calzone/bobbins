@@ -19,6 +19,11 @@ export function* fetchBobbinsSaga() {
     const result = yield call(
       get,
       `http://localhost:3000/api/bobbins/owner/${tempID}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('session')}`,
+        },
+      },
     );
     // yield put(loginSuccess());
     // yield put(updateSession({ isLoggedIn: true }));

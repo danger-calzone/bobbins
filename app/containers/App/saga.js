@@ -2,10 +2,8 @@
  * Gets the repositories of the user from Github
  */
 
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, takeLatest } from 'redux-saga/effects';
 import { post } from '../../utils/request';
-
-import { updateSession } from './actions';
 
 import { LOGOUT } from './constants';
 
@@ -15,9 +13,14 @@ import { LOGOUT } from './constants';
 export function* logoutSaga({ payload }) {
   const { navigate } = payload;
   try {
-    yield call(post, 'http://localhost:3000/api/logout', { payload: {} });
-    yield put(updateSession({ isLoggedIn: false }));
-    navigate('/dashboard');
+    yield call(post, 'http://localhost:3000/api/logout', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('session')}`,
+      },
+      payload: {},
+    });
+    localStorage.removeItem('session');
+    navigate('/login');
   } catch (err) {
     console.log('ERROR SAGA', err);
   }

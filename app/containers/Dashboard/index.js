@@ -9,6 +9,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
+import { useAuth } from 'utils/useAuth';
 import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
@@ -17,16 +18,17 @@ import { fetchBobbins } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import { makeSelectBobbins, makeSelectUsername } from './selectors';
-import { makeSelectGlobal } from '../App/selectors';
 import H1 from '../../components/H1';
 import BobbinsWrapper from './BobbinsWrapper';
 import BobbinsThumbnail from './BobbinsThumbnail';
 
 const key = 'dashboard';
 
-const Dashboard = ({ bobbins, dispatchFetchBobbins, isLoggedIn, username }) => {
+const Dashboard = ({ bobbins, dispatchFetchBobbins, username }) => {
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
+
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     // status check
@@ -37,7 +39,7 @@ const Dashboard = ({ bobbins, dispatchFetchBobbins, isLoggedIn, username }) => {
 
   // secondary nav menu, maybe first one is public and second one is private
   // Bobbins page / profile for now
-  if (isLoggedIn) {
+  if (isAuthenticated) {
     return (
       <>
         <H1>{`${username}'s bobbins`}</H1>
@@ -65,13 +67,11 @@ const Dashboard = ({ bobbins, dispatchFetchBobbins, isLoggedIn, username }) => {
 Dashboard.propTypes = {
   bobbins: PropTypes.array.isRequired,
   dispatchFetchBobbins: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
   username: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   bobbins: makeSelectBobbins(),
-  isLoggedIn: makeSelectGlobal('isLoggedIn'),
   username: makeSelectUsername(),
 });
 

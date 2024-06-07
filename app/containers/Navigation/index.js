@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { useInjectSaga } from 'utils/injectSaga';
+import { useAuth } from 'utils/useAuth';
 
 import { makeSelectGlobal } from '../App/selectors';
 
@@ -34,10 +35,12 @@ const AppWrapper = styled.div`
 
 const key = 'main';
 
-function Navigation({ dispatchLogout, isLoggedIn }) {
+function Navigation({ dispatchLogout }) {
   useInjectSaga({ key, saga });
 
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
   return (
     <AppWrapper>
       <HeaderContainer>
@@ -54,9 +57,8 @@ function Navigation({ dispatchLogout, isLoggedIn }) {
           <HeaderLink to="/about">
             <FormattedMessage {...messages.about} />
           </HeaderLink>
-          {isLoggedIn ? (
+          {isAuthenticated ? (
             <LogoutButton
-              color="primary"
               onClick={() => dispatchLogout({ navigate })}
               variant="contained"
             >
