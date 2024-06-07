@@ -2,9 +2,10 @@
  * Gets the repositories of the user from Github
  */
 
-import { call, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { post } from '../../utils/request';
-
+import { logoutFailure } from '../Dashboard/actions';
+import { logoutSuccess } from '../LoginPage/actions';
 import { LOGOUT } from './constants';
 
 /**
@@ -20,9 +21,14 @@ export function* logoutSaga({ payload }) {
       payload: {},
     });
     localStorage.removeItem('session');
+    yield put(logoutSuccess({ successMessage: 'Logged Out!' }));
     navigate('/login');
   } catch (err) {
-    console.log('ERROR SAGA', err);
+    yield put(
+      logoutFailure({
+        errorMessage: 'There was an issue with logout, please try again later.',
+      }),
+    );
   }
 }
 

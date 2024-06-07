@@ -31,10 +31,17 @@ const makeSelectStatus = () =>
     loginState => loginState.status,
   );
 
+const makeSelectSuccess = () =>
+  createSelector(
+    selectLogin,
+    loginState => loginState.success,
+  );
+
 export {
   selectLogin,
   makeSelectError,
   makeSelectPassword,
   makeSelectUsername,
   makeSelectStatus,
+  makeSelectSuccess
 };

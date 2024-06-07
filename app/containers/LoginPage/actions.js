@@ -2,6 +2,7 @@ import {
   LOGIN_REQUEST,
   LOGIN_FAILURE,
   LOGIN_SUCCESS,
+  LOGOUT_SUCCESS,
   ON_CHANGE,
   RESET_ERRORS,
 } from './constants';
@@ -16,6 +17,10 @@ export function loginFailure({ errorMessage }) {
 
 export function loginSuccess() {
   return { type: LOGIN_SUCCESS };
+}
+
+export function logoutSuccess({ successMessage }) {
+  return { payload: { successMessage }, type: LOGOUT_SUCCESS };
 }
 
 /**

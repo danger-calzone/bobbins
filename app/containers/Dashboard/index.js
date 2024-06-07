@@ -14,17 +14,22 @@ import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 
+import { Alert } from '@mui/material';
 import { fetchBobbins } from './actions';
 import reducer from './reducer';
 import saga from './saga';
-import { makeSelectBobbins, makeSelectUsername } from './selectors';
+import {
+  makeSelectBobbins,
+  makeSelectError,
+  makeSelectUsername,
+} from './selectors';
 import H1 from '../../components/H1';
 import BobbinsWrapper from './BobbinsWrapper';
 import BobbinsThumbnail from './BobbinsThumbnail';
 
 const key = 'dashboard';
 
-const Dashboard = ({ bobbins, dispatchFetchBobbins, username }) => {
+const Dashboard = ({ bobbins, error, dispatchFetchBobbins, username }) => {
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
 
@@ -42,6 +47,11 @@ const Dashboard = ({ bobbins, dispatchFetchBobbins, username }) => {
   if (isAuthenticated) {
     return (
       <>
+        {error && (
+          <Alert severity="error" sx={{ marginBottom: '1rem' }}>
+            {error}
+          </Alert>
+        )}
         <H1>{`${username}'s bobbins`}</H1>
         <BobbinsWrapper>
           {bobbins.map(({ id, imageSrc }) => (
@@ -66,12 +76,14 @@ const Dashboard = ({ bobbins, dispatchFetchBobbins, username }) => {
 
 Dashboard.propTypes = {
   bobbins: PropTypes.array.isRequired,
+  error: PropTypes.string,
   dispatchFetchBobbins: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   bobbins: makeSelectBobbins(),
+  error: makeSelectError(),
   username: makeSelectUsername(),
 });
 

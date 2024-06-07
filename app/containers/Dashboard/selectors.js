@@ -19,4 +19,15 @@ const makeSelectBobbins = () =>
     dashboardState => dashboardState.bobbins,
   );
 
-export { selectDashboard, makeSelectBobbins, makeSelectUsername };
+const makeSelectError = () =>
+  createSelector(
+    selectDashboard,
+    dashboardState => dashboardState.error,
+  );
+
+export {
+  selectDashboard,
+  makeSelectBobbins,
+  makeSelectError,
+  makeSelectUsername,
+};

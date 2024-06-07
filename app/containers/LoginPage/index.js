@@ -33,6 +33,7 @@ import {
   makeSelectPassword,
   makeSelectUsername,
   makeSelectStatus,
+  makeSelectSuccess,
 } from './selectors';
 
 const key = 'login';
@@ -45,6 +46,7 @@ const LoginPage = ({
   password,
   username,
   status,
+  success,
 }) => {
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
@@ -60,6 +62,11 @@ const LoginPage = ({
       {error && (
         <Alert severity="error" sx={{ marginBottom: '1rem' }}>
           {error}
+        </Alert>
+      )}
+      {success && (
+        <Alert severity="success" sx={{ marginBottom: '1rem' }}>
+          {success}
         </Alert>
       )}
       <FormControl>
@@ -126,6 +133,7 @@ const mapStateToProps = createStructuredSelector({
   password: makeSelectPassword(),
   username: makeSelectUsername(),
   status: makeSelectStatus(),
+  success: makeSelectSuccess(),
 });
 
 const mapDispatchToProps = dispatch => ({

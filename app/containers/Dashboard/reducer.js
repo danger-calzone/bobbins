@@ -3,6 +3,7 @@ import {
   FETCH_BOBBINS,
   FETCH_BOBBINS_FAILURE,
   FETCH_BOBBINS_SUCCESS,
+  LOGOUT_FAILURE,
 } from './constants';
 
 // The initial state of the App
@@ -29,6 +30,8 @@ const dashboardReducer = (state = initialState, action) =>
         draft.status = 'resolved';
         draft.bobbins = action.payload.bobbins;
         break;
+      case LOGOUT_FAILURE:
+        draft.error = action.payload.errorMessage;
     }
   });
 
