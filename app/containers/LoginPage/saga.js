@@ -19,7 +19,7 @@ export function* loginSaga({ payload }) {
       credentials: 'include',
       payload: { password, username },
     });
-    localStorage.setItem('session', token);
+    localStorage.setItem('session', JSON.stringify(token));
     yield put(loginSuccess());
     navigate('/dashboard');
   } catch (err) {

@@ -33,14 +33,15 @@ const Dashboard = ({ bobbins, error, dispatchFetchBobbins, username }) => {
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
 
-  const { isAuthenticated } = useAuth();
+  const isAuthenticated = useAuth();
 
   useEffect(() => {
     // status check
     if (isEmpty(bobbins)) {
       dispatchFetchBobbins();
     }
-  }, [dispatchFetchBobbins]);
+    // setIsAuthenticated(useAuth);
+  }, [dispatchFetchBobbins, isAuthenticated]);
 
   // secondary nav menu, maybe first one is public and second one is private
   // Bobbins page / profile for now

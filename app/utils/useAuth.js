@@ -1,13 +1,8 @@
-import { useState, useEffect } from 'react';
-
 export function useAuth() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const isAuthenticated = () => {
+    const token = window.localStorage.getItem('session');
+    return !!JSON.parse(token);
+  };
 
-  useEffect(() => {
-    // Check if JWT is present in localStorage
-    const token = localStorage.getItem('session');
-    setIsAuthenticated(!!token);
-  }, []);
-
-  return { isAuthenticated };
+  return isAuthenticated();
 }

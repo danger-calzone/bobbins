@@ -1,15 +1,11 @@
-import React, { memo } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+// Navigation.jsx
+import React from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useAuth } from 'utils/useAuth';
-
-import { makeSelectGlobal } from '../App/selectors';
 
 import HeaderContainer from './HeaderContainer';
 import ImageWrapper from './ImageWrapper';
@@ -17,7 +13,6 @@ import Img from './Img';
 import NavBar from './NavBar';
 import HeaderLink from './HeaderLink';
 import BobbinsHeader from './bobbinsHeader.png';
-import messages from './messages';
 import LogoutButton from './LogoutButton';
 
 import saga from '../App/saga';
@@ -37,9 +32,8 @@ const key = 'main';
 
 function Navigation({ dispatchLogout }) {
   useInjectSaga({ key, saga });
-
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const isAuthenticated = useAuth(); // Using isAuthenticated from useAuth hook
 
   return (
     <AppWrapper>
@@ -48,15 +42,9 @@ function Navigation({ dispatchLogout }) {
           <Img src={BobbinsHeader} alt="Bobbins Logo" />
         </ImageWrapper>
         <NavBar>
-          <HeaderLink to="/dashboard">
-            <FormattedMessage {...messages.home} />
-          </HeaderLink>
-          <HeaderLink to="/features">
-            <FormattedMessage {...messages.customization} />
-          </HeaderLink>
-          <HeaderLink to="/about">
-            <FormattedMessage {...messages.about} />
-          </HeaderLink>
+          <HeaderLink to="/dashboard">Home</HeaderLink>
+          <HeaderLink to="/features">Features</HeaderLink>
+          <HeaderLink to="/about">About</HeaderLink>
           {isAuthenticated ? (
             <LogoutButton
               onClick={() => dispatchLogout({ navigate })}
@@ -65,9 +53,7 @@ function Navigation({ dispatchLogout }) {
               Logout
             </LogoutButton>
           ) : (
-            <HeaderLink to="/login">
-              <FormattedMessage {...messages.login} />
-            </HeaderLink>
+            <HeaderLink to="/login">Login</HeaderLink>
           )}
         </NavBar>
       </HeaderContainer>
@@ -77,24 +63,14 @@ function Navigation({ dispatchLogout }) {
 }
 
 Navigation.propTypes = {
-  dispatchLogout: PropTypes.func,
-  isLoggedIn: PropTypes.bool.isRequired,
+  dispatchLogout: PropTypes.func.isRequired,
 };
-
-const mapStateToProps = createStructuredSelector({
-  isLoggedIn: makeSelectGlobal('isLoggedIn'),
-});
 
 const mapDispatchToProps = dispatch => ({
   dispatchLogout: ({ navigate }) => dispatch(logout({ navigate })),
 });
 
-const withConnect = connect(
-  mapStateToProps,
+export default connect(
+  null,
   mapDispatchToProps,
-);
-
-export default compose(
-  withConnect,
-  memo,
 )(Navigation);
