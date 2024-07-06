@@ -17,3 +17,4 @@ export const LOGOUT_SUCCESS = 'bobbins/LoginPage/LOGOUT_SUCCESS';
 
 export const ON_CHANGE = 'bobbins/LoginPage/ON_CHANGE';
 export const RESET_ERRORS = 'bobbins/LoginPage/RESET_ERRORS';
+export const RESET_FORM = 'bobbins/LoginPage/RESET_FORM';

@@ -6,6 +6,7 @@ import {
   LOGOUT_SUCCESS,
   ON_CHANGE,
   RESET_ERRORS,
+  RESET_FORM,
 } from './constants';
 
 // The initial state of the App
@@ -39,6 +40,10 @@ const loginReducer = (state = initialState, action) =>
         break;
       case RESET_ERRORS:
         draft.error = initialState.error;
+        break;
+      case RESET_FORM:
+        draft.password = initialState.password;
+        draft.username = initialState.username;
         break;
     }
   });

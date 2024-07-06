@@ -5,6 +5,7 @@ import {
   LOGOUT_SUCCESS,
   ON_CHANGE,
   RESET_ERRORS,
+  RESET_FORM,
 } from './constants';
 
 export function loginRequest({ navigate, password, username }) {
@@ -39,4 +40,8 @@ export function onChange({ input, value }) {
 
 export function resetErrors() {
   return { type: RESET_ERRORS };
+}
+
+export function resetForm() {
+  return { type: RESET_FORM };
 }

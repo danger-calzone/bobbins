@@ -4,7 +4,7 @@
  * This is the first thing users see of our App, at the '/' route
  */
 
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -25,7 +25,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import FormWrapper from './FormWrapper';
-import { loginRequest, onChange, resetErrors } from './actions';
+import { loginRequest, onChange, resetErrors, resetForm } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import {
@@ -43,6 +43,7 @@ const LoginPage = ({
   dispatchLoginRequest,
   dispatchOnChange,
   dispatchResetErrors,
+  dispatchResetForm,
   password,
   username,
   status,
@@ -55,6 +56,8 @@ const LoginPage = ({
 
   const handleClickShowPassword = () => setShowPassword(show => !show);
   const navigate = useNavigate();
+
+  useEffect(() => () => dispatchResetForm(), []);
 
   return (
     <FormWrapper>
@@ -123,9 +126,11 @@ LoginPage.propTypes = {
   dispatchLoginRequest: PropTypes.func.isRequired,
   dispatchOnChange: PropTypes.func.isRequired,
   dispatchResetErrors: PropTypes.func.isRequired,
+  dispatchResetForm: PropTypes.func.isRequired,
   password: PropTypes.string,
   username: PropTypes.string,
   status: PropTypes.string.isRequired,
+  success: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -141,6 +146,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(loginRequest({ navigate, password, username })),
   dispatchOnChange: ({ input, value }) => dispatch(onChange({ input, value })),
   dispatchResetErrors: () => dispatch(resetErrors()),
+  dispatchResetForm: () => dispatch(resetForm()),
 });
 
 const withConnect = connect(
