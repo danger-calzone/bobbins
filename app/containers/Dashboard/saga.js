@@ -13,20 +13,14 @@ import { FETCH_BOBBINS } from './constants';
  * Github repos request/response handler
  */
 export function* fetchBobbinsSaga() {
-  //   const { username } = payload;
   try {
-    const tempID = 19;
+    const token = JSON.parse(window.localStorage.getItem('session'));
+    if (!token) throw new Error();
     const result = yield call(
       get,
-      `http://localhost:3000/api/bobbins/owner/${tempID}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('session')}`,
-        },
-      },
+      `http://localhost:3000/api/bobbins/owner/${token.id}`,
+      { isAuthRoute: true },
     );
-    // yield put(loginSuccess());
-    // yield put(updateSession({ isLoggedIn: true }));
     yield put(fetchBobbinsSuccess({ bobbins: result }));
   } catch (err) {
     yield put(fetchBobbinsFailure({ errorMessage: 'FAILURE' }));
