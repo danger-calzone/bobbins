@@ -4,8 +4,8 @@ import {
   FETCH_BOBBIN_SUCCESS,
 } from './constants';
 
-export function fetchBobbin() {
-  return { type: FETCH_BOBBIN };
+export function fetchBobbin({ bobbinId }) {
+  return { payload: { bobbinId }, type: FETCH_BOBBIN };
 }
 
 export function fetchBobbinFailure({ errorMessage }) {

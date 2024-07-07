@@ -1,12 +1,12 @@
+import { decode } from 'jsonwebtoken';
 /**
- * Gets the repositories of the user from Github
+ * Gets the bobbins of the user
  */
 
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { get } from '../../utils/request';
 
 import { fetchBobbinsFailure, fetchBobbinsSuccess } from './actions';
-
 import { FETCH_BOBBINS } from './constants';
 
 /**
@@ -16,9 +16,10 @@ export function* fetchBobbinsSaga() {
   try {
     const token = JSON.parse(window.localStorage.getItem('session'));
     if (!token) throw new Error();
+    const decodedToken = decode(token);
     const result = yield call(
       get,
-      `http://localhost:3000/api/bobbins/owner/${token.id}`,
+      `http://localhost:3000/api/bobbins/owner/${decodedToken.id}`,
       { isAuthRoute: true },
     );
     yield put(fetchBobbinsSuccess({ bobbins: result }));
@@ -30,6 +31,6 @@ export function* fetchBobbinsSaga() {
 /**
  * Root saga manages watcher lifecycle
  */
-export default function* login() {
+export default function* dashboard() {
   yield takeLatest(FETCH_BOBBINS, fetchBobbinsSaga);
 }

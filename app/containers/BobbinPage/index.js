@@ -36,24 +36,24 @@ const BobbinPage = ({ bobbinInfo, dispatchFetchBobbin, error, status }) => {
   const { bobbinId } = useParams();
 
   useEffect(() => {
-    dispatchFetchBobbin({ id: bobbinId }); // add to actual dispatch
+    dispatchFetchBobbin({ bobbinId });
   }, [dispatchFetchBobbin]);
 
   return (
     <AsyncRender
       Component={
         <BobbinPageWrapper>
-          <BobbinImage src={bobbinInfo.image} />
+          <BobbinImage src={bobbinInfo.imageSrc} />
           <div>
             <BobbinInfoHeading>
               Information for {bobbinInfo.name}
             </BobbinInfoHeading>
             <BobbinInfoContent>
-              <div>Owner: {bobbinInfo.owner}</div>
-              <div>Artists: {bobbinInfo.artists.join(', ')}</div>
-              <div>Expression: {bobbinInfo.expression}</div>
-              <div>Mutations: {bobbinInfo.mutations.join(', ')}</div>
-              <div>Clothing: {bobbinInfo.clothing.join(', ')}</div>
+              <div>Owner: {bobbinInfo.ownerId}</div>
+              {/* <div>Artists: {bobbinInfo.artists.join(', ')}</div> */}
+              {/* <div>Expression: {bobbinInfo.expression}</div> */}
+              {/* <div>Mutations: {bobbinInfo.mutations.join(', ')}</div> */}
+              {/* <div>Clothing: {bobbinInfo.clothing.join(', ')}</div> */}
             </BobbinInfoContent>
           </div>
           <BobbinInfoHeading />
@@ -80,7 +80,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  dispatchFetchBobbin: () => dispatch(fetchBobbin()),
+  dispatchFetchBobbin: ({ bobbinId }) => dispatch(fetchBobbin({ bobbinId })),
 });
 
 const withConnect = connect(
