@@ -1,26 +1,29 @@
-import jwt from 'jsonwebtoken';
-import { useNavigate } from 'react-router-dom';
+import { decode } from 'jsonwebtoken';
 
-export function useAuth() {
-  const navigate = useNavigate();
+import { getRoleString } from './getRoleString';
 
-  const isAuthenticated = () => {
+export function useAuth(navigate) {
+  const getAuthDetails = () => {
     const token = window.localStorage.getItem('session');
-    const parsedToken = JSON.parse(token);
-    if (!parsedToken) return false;
+    if (!token) return { isAuthenticated: false, role: null };
 
-    const decodedToken = jwt.decode(parsedToken);
-    if (!decodedToken || !decodedToken.exp) return false;
+    const parsedToken = JSON.parse(token);
+    const decodedToken = decode(parsedToken);
+    if (!decodedToken || !decodedToken.exp) return { isAuthenticated: false, role: null };
 
     const currentDate = Date.now();
     const exp = decodedToken.exp * 1000;
     const isValid = currentDate < exp;
+
     if (!isValid) {
       window.localStorage.removeItem('session');
-      navigate('/login');
+      navigate('/login'); // Only works if navigate is passed in
+      return { isAuthenticated: false, role: null };
     }
-    return isValid;
+
+    const role = getRoleString(Number(decodedToken.role));
+    return { isAuthenticated: true, role };
   };
 
-  return isAuthenticated();
+  return getAuthDetails();
 }
