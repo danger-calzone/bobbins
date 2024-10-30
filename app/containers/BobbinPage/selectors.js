@@ -13,4 +13,25 @@ const makeSelectBobbin = () =>
     bobbinState => bobbinState.bobbinInfo,
   );
 
-export { makeSelectBobbin, selectBobbin };
+const makeSelectError = () =>
+  createSelector(
+    selectBobbin,
+    bobbinState => bobbinState.error,
+  );
+
+const makeSelectStatus = () =>
+  createSelector(
+    selectBobbin,
+    bobbinState => bobbinState.status,
+  );
+
+// const makeSelectBobbinInfo = () =>
+//   createSelector(
+//     selectBobbin,
+//     bobbinState => {
+//       const { bobbinInfo } = bobbinState;
+      
+//     }
+//   );
+
+export { makeSelectBobbin, makeSelectError, makeSelectStatus };

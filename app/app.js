@@ -45,7 +45,7 @@ const adminRoutes = [
 ];
 
 // Route-creation function
-const createRoutes = (isAdmin) => [
+const createRoutes = isAdmin => [
   {
     path: '/',
     element: <Navigation />,
@@ -71,13 +71,13 @@ const AuthWrapper = () => {
 };
 
 // Function to render the app
-const render = (messages) => {
+const render = messages => {
   root.render(
     <Provider store={store}>
       <LanguageProvider messages={messages}>
         <AuthWrapper />
       </LanguageProvider>
-    </Provider>
+    </Provider>,
   );
 };
 

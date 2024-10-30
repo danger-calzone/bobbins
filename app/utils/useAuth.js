@@ -9,7 +9,8 @@ export function useAuth(navigate) {
 
     const parsedToken = JSON.parse(token);
     const decodedToken = decode(parsedToken);
-    if (!decodedToken || !decodedToken.exp) return { isAuthenticated: false, role: null };
+    if (!decodedToken || !decodedToken.exp)
+      return { isAuthenticated: false, role: null };
 
     const currentDate = Date.now();
     const exp = decodedToken.exp * 1000;

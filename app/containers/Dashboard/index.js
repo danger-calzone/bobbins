@@ -30,6 +30,7 @@ import BobbinsThumbnail from './BobbinsThumbnail';
 const key = 'dashboard';
 
 const Dashboard = ({ bobbins, error, dispatchFetchBobbins, username }) => {
+  console.log('BOBBINS', bobbins);
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
 

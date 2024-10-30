@@ -12,10 +12,6 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import Header from 'components/Header';
-
-// import Footer from 'components/Footer';
-
 import GlobalStyle from '../../global-styles';
 
 const AppWrapper = styled.div`
@@ -37,7 +33,7 @@ function App() {
       >
         <meta name="description" content="A React.js Boilerplate application" />
       </Helmet>
-      <Header />
+      {/* <Header /> */}
       {/* <Footer /> */}
       <GlobalStyle />
     </AppWrapper>

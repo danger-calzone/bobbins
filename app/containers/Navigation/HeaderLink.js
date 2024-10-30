@@ -2,22 +2,25 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export default styled(Link)`
-  display: inline-flex;
-  padding: 0.25em 2em;
-  margin: 1em;
-  text-decoration: none;
+  background: white;
+  border: 2px solid #41addd;
   border-radius: 4px;
-  -webkit-font-smoothing: antialiased;
-  -webkit-touch-callout: none;
-  user-select: none;
+  color: #41addd;
   cursor: pointer;
-  outline: 0;
+  display: inline-flex;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: bold;
   font-size: 16px;
-  border: 2px solid #41addd;
-  color: #41addd;
-  background: white;
+  margin-bottom: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-top: ${props => (props.hasTopMargin ? `1em` : `0`)};
+  outline: 0;
+  padding: 0.25em 2em;
+  text-decoration: none;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -webkit-touch-callout: none;
 
   &:active {
     background: #41addd;

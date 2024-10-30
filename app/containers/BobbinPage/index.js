@@ -13,6 +13,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { createStructuredSelector } from 'reselect';
 
 import { fetchBobbin } from './actions';
+import { formatNestedDescriptions } from './helpers';
 import reducer from './reducer';
 import saga from './saga';
 import {
@@ -39,6 +40,7 @@ const BobbinPage = ({ bobbinInfo, dispatchFetchBobbin, error, status }) => {
     dispatchFetchBobbin({ bobbinId });
   }, [dispatchFetchBobbin]);
 
+  // add specials display
   return (
     <AsyncRender
       Component={
@@ -50,10 +52,22 @@ const BobbinPage = ({ bobbinInfo, dispatchFetchBobbin, error, status }) => {
             </BobbinInfoHeading>
             <BobbinInfoContent>
               <div>Owner: {bobbinInfo.ownerId}</div>
-              {/* <div>Artists: {bobbinInfo.artists.join(', ')}</div> */}
-              {/* <div>Expression: {bobbinInfo.expression}</div> */}
-              {/* <div>Mutations: {bobbinInfo.mutations.join(', ')}</div> */}
-              {/* <div>Clothing: {bobbinInfo.clothing.join(', ')}</div> */}
+              <div>
+                Artists:{' '}
+                {formatNestedDescriptions(bobbinInfo.artists, 'username')}
+              </div>
+              <div>
+                Expression:{' '}
+                {formatNestedDescriptions(bobbinInfo.expressions, 'expression')}
+              </div>
+              <div>
+                Mutations:{' '}
+                {formatNestedDescriptions(bobbinInfo.mutations, 'mutation')}
+              </div>
+              <div>
+                Clothing:{' '}
+                {formatNestedDescriptions(bobbinInfo.clothing, 'clothing')}
+              </div>
             </BobbinInfoContent>
           </div>
           <BobbinInfoHeading />
