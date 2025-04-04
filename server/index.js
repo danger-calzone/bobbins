@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const { resolve } = require('path');
-const { Sequelize } = require('sequelize');
-const rateLimit = require('express-rate-limit');
+// const { Sequelize } = require('sequelize');
+// const rateLimit = require('express-rate-limit');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -17,6 +17,8 @@ const db = require('./config/database');
 const { User } = require('./models');
 const models = require('./models');
 const bobbinRoutes = require('./routes/bobbinRoutes');
+const userRoutes = require('./routes/userRoutes');
+const roleRoutes = require('./routes/roleRoutes');
 
 const logger = require('./logger');
 const argv = require('./argv');
@@ -36,12 +38,12 @@ const ngrok =
     : false;
 require('dotenv').config();
 
-const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 login requests per windowMs
-  message:
-    'Too many login attempts from this IP, please try again after 15 minutes',
-});
+// const loginLimiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100, // Limit each IP to 100 login requests per windowMs
+//   message:
+//     'Too many login attempts from this IP, please try again after 15 minutes',
+// });
 
 const app = express();
 
@@ -152,9 +154,13 @@ app.post('/api/login', (req, res, next) => {
         .json({ error: 'Authentication failed', message: info.message });
     }
     // Generate a signed JSON Web Token (JWT) with the user's ID
-    const token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: '1h',
-    });
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: '1h',
+      },
+    );
 
     // Send the token in the response
     return res.status(200).json({ token });
@@ -163,10 +169,10 @@ app.post('/api/login', (req, res, next) => {
 
 app.post(
   '/api/logout',
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     try {
-      req.logout();
+      req.logout(() => {});
       res.status(200).json({ message: 'Success' });
     } catch (error) {
       res.status(500).json({ error: 'Logout failed' });
@@ -208,6 +214,18 @@ app.use(
   bobbinRoutes,
 );
 
+app.use(
+  '/api/users',
+  passport.authenticate('jwt', { session: false }),
+  userRoutes,
+);
+
+app.use(
+  '/api/roles',
+  passport.authenticate('jwt', { session: false }),
+  roleRoutes,
+);
+
 // error middleware
 app.use((err, req, res, next) => {
   console.log('ERROR', err);
@@ -237,6 +255,7 @@ try {
   models.sequelize
     .sync()
     .then(() => {
+      // eslint-disable-next-line consistent-return
       app.listen(port, host, async err => {
         if (err) {
           return logger.error(err.message);

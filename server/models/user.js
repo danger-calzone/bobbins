@@ -1,3 +1,4 @@
+// models/User.js
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
@@ -11,15 +12,32 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       role: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+          model: 'Roles',
+          key: 'id',
+        },
       },
     },
     {
-      tableName: 'Users', // Ensure this matches the table name in your migration
-      timestamps: true, // Sequelize will manage createdAt and updatedAt
+      tableName: 'Users',
+      timestamps: true,
     },
   );
+
+  User.associate = models => {
+    User.belongsToMany(models.Bobbin, {
+      through: 'BobbinArtists',
+      as: 'bobbins',
+      foreignKey: 'artistId',
+    });
+    User.belongsToMany(models.Role, {
+      through: 'UserRole',
+      as: 'roles',
+      foreignKey: 'userId',
+    });
+  };
 
   return User;
 };
