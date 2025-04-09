@@ -1,5 +1,5 @@
 /**
- * Homepage selectors
+ * Login selectors
  */
 
 import { createSelector } from 'reselect';

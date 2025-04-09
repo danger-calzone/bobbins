@@ -53,8 +53,9 @@ export function get(url, options = {}) {
     'Content-Type': 'application/json',
     ...options.headers,
   };
-  if (options.token) {
-    headers.Authorization = `Bearer ${options.token}`;
+  if (options.isAuthRoute) {
+    const token = JSON.parse(localStorage.getItem('session'));
+    headers.Authorization = `Bearer ${token}`;
   }
   return fetch(url, {
     headers,
@@ -75,13 +76,19 @@ export function get(url, options = {}) {
  * @return {object}           The response data
  */
 export function post(url, options) {
+  const headers = {
+    'Content-Type': 'application/json',
+    ...options.headers,
+  };
+  if (options.isAuthRoute) {
+    const token = JSON.parse(localStorage.getItem('session'));
+    headers.Authorization = `Bearer ${token}`;
+  }
   const { payload } = options;
-  // debugger;
+  console.log(headers.Authorization);
   return fetch(url, {
     ...options,
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers,
     body: JSON.stringify(payload),
     method: 'POST',
   })

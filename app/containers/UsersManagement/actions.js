@@ -33,8 +33,8 @@ export function registerUserFailure({ errorMessage }) {
   return { payload: { errorMessage }, type: REGISTER_USER_FAILURE };
 }
 
-export function registerUserSuccess({ userInfo }) {
-  return { payload: { userInfo }, type: REGISTER_USER_SUCCESS };
+export function registerUserSuccess({ successMessage }) {
+  return { payload: { successMessage }, type: REGISTER_USER_SUCCESS };
 }
 
 export function resetErrors() {

@@ -12,13 +12,14 @@ import {
 
 // The initial state of the App
 export const initialState = {
-  error: '',
+  errorMessage: '',
+  error: false,
   username: '',
   password: '',
   role: 0,
   roles: [],
   status: 'idle',
-  success: '',
+  successMessage: '',
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -29,6 +30,7 @@ const usersManagementReducer = (state = initialState, action) =>
         draft.status = 'loading';
         break;
       case FETCH_USER_ROLES_FAILURE:
+        draft.error = true;
         draft.status = 'rejected';
         break;
       case FETCH_USER_ROLES_SUCCESS:
@@ -42,13 +44,16 @@ const usersManagementReducer = (state = initialState, action) =>
         draft.status = 'loading';
         break;
       case REGISTER_USER_FAILURE:
+        draft.errorMessage = action.payload.errorMessage;
         draft.status = 'rejected';
         break;
       case REGISTER_USER_SUCCESS:
+        draft.successMessage = action.payload.successMessage;
         draft.status = 'resolved';
         break;
       case RESET_ERRORS:
         draft.error = initialState.error;
+        draft.errorMessage = initialState.errorMessage;
         break;
     }
   });

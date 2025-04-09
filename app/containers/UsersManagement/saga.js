@@ -13,7 +13,7 @@ import {
 } from './actions';
 import { FETCH_USER_ROLES, REGISTER_USER } from './constants';
 
-export function* createUserSaga({ payload }) {
+export function* registerUserSaga({ payload }) {
   const { navigate, password, role, username } = payload;
   try {
     const result = yield call(post, 'http://localhost:3000/api/users', {
@@ -24,10 +24,12 @@ export function* createUserSaga({ payload }) {
         role,
       },
     });
-    console.log('success!', result);
-    yield put(registerUserSuccess());
+    yield put(
+      registerUserSuccess({
+        successMessage: 'User Created!',
+      }),
+    );
   } catch (err) {
-    console.log('IN SAGA', err);
     yield put(registerUserFailure({ errorMessage: err.message }));
   }
 }
@@ -48,6 +50,6 @@ export function* fetchUserRolesSaga() {
  * Root saga manages watcher lifecycle
  */
 export default function* usersManagement() {
-  yield takeLatest(REGISTER_USER, createUserSaga);
+  yield takeLatest(REGISTER_USER, registerUserSaga);
   yield takeLatest(FETCH_USER_ROLES, fetchUserRolesSaga);
 }
