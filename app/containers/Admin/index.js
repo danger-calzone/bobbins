@@ -42,9 +42,9 @@ import {
   makeSelectUsername,
 } from './selectors';
 
-const key = 'usersManagement';
+const key = 'admin';
 
-const UsersManagement = ({
+const Admin = ({
   dispatchCreateUser,
   dispatchFetchUserRoles,
   dispatchOnChange,
@@ -173,7 +173,7 @@ const UsersManagement = ({
   return <>public view</>;
 };
 
-UsersManagement.propTypes = {
+Admin.propTypes = {
   dispatchCreateUser: PropTypes.func.isRequired,
   dispatchFetchUserRoles: PropTypes.func.isRequired,
   dispatchOnChange: PropTypes.func.isRequired,
@@ -213,4 +213,4 @@ const withConnect = connect(
 export default compose(
   withConnect,
   memo,
-)(UsersManagement);
+)(Admin);

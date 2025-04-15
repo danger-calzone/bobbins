@@ -68,8 +68,8 @@ function Navigation({ dispatchLogout }) {
           <Break />
           {role === 'admin' && (
             <LinkWrapper>
-              <HeaderLink to="register">Register</HeaderLink>
-              <HeaderLink to="upload">Upload</HeaderLink>
+              <HeaderLink to="/admin">Admin</HeaderLink>
+              <HeaderLink to="/upload">Upload</HeaderLink>
             </LinkWrapper>
           )}
         </NavBar>

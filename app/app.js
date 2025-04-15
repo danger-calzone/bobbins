@@ -12,7 +12,8 @@ import Dashboard from 'containers/Dashboard/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import LoginPage from 'containers/LoginPage';
 import Navigation from 'containers/Navigation';
-import Register from 'containers/Register';
+import User from 'containers/Users/Loadable';
+import Admin from 'containers/UsersManagement/Loadable';
 import Upload from 'containers/Upload';
 
 // Import Language Provider and store configuration
@@ -35,8 +36,8 @@ const root = createRoot(container);
 // Define admin-specific routes
 const adminRoutes = [
   {
-    path: 'register',
-    element: <Register />,
+    path: 'admin',
+    element: <Admin />,
   },
   {
     path: 'upload',
@@ -55,6 +56,7 @@ const createRoutes = isAdmin => [
       { path: 'features', element: <FeaturePage /> },
       { path: 'about', element: <AboutPage /> },
       { path: 'bobbins/:bobbinId', element: <BobbinPage /> },
+      { path: 'users', element: <User /> },
       ...(isAdmin ? adminRoutes : []), // Conditionally include admin routes
     ],
   },

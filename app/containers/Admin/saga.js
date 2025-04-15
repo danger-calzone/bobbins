@@ -49,7 +49,7 @@ export function* fetchUserRolesSaga() {
 /**
  * Root saga manages watcher lifecycle
  */
-export default function* usersManagement() {
+export default function* admin() {
   yield takeLatest(REGISTER_USER, registerUserSaga);
   yield takeLatest(FETCH_USER_ROLES, fetchUserRolesSaga);
 }

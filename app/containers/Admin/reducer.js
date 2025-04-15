@@ -23,7 +23,7 @@ export const initialState = {
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const usersManagementReducer = (state = initialState, action) =>
+const adminReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case FETCH_USER_ROLES:
@@ -58,4 +58,4 @@ const usersManagementReducer = (state = initialState, action) =>
     }
   });
 
-export default usersManagementReducer;
+export default adminReducer;

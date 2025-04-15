@@ -1,56 +1,56 @@
 /**
- * UsersManagement selectors
+ * Admin selectors
  */
 
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
-const selectUsersManagement = state => state.usersManagement || initialState;
+const selectAdmin = state => state.admin || initialState;
 
 const makeSelectError = () =>
   createSelector(
-    selectUsersManagement,
+    selectAdmin,
     usersManagement => usersManagement.error,
   );
 
 const makeSelectErrorMessage = () =>
   createSelector(
-    selectUsersManagement,
+    selectAdmin,
     usersManagement => usersManagement.errorMessage,
   );
 
 const makeSelectPassword = () =>
   createSelector(
-    selectUsersManagement,
+    selectAdmin,
     usersManagement => usersManagement.password,
   );
 
 const makeSelectRoles = () =>
   createSelector(
-    selectUsersManagement,
+    selectAdmin,
     usersManagement => usersManagement.roles,
   );
 
 const makeSelectStatus = () =>
   createSelector(
-    selectUsersManagement,
+    selectAdmin,
     usersManagement => usersManagement.status,
   );
 
 const makeSelectSuccessMessage = () =>
   createSelector(
-    selectUsersManagement,
+    selectAdmin,
     usersManagement => usersManagement.successMessage,
   );
 
 const makeSelectUsername = () =>
   createSelector(
-    selectUsersManagement,
+    selectAdmin,
     usersManagement => usersManagement.username,
   );
 
 export {
-  selectUsersManagement,
+  selectAdmin,
   makeSelectError,
   makeSelectErrorMessage,
   makeSelectPassword,
