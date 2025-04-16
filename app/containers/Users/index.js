@@ -1,12 +1,76 @@
 /*
- * HomePage
+ * Users
  *
- * This is the first thing users see of our App, at the '/' route
+ * Renders a list of all users
  *
  */
 
-import React from 'react';
+import React, { memo, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import PropTypes from 'prop-types';
+import { createStructuredSelector } from 'reselect';
 
-export default function Users() {
-  return <h1>Users placeholder</h1>;
-}
+import { useInjectReducer } from 'utils/injectReducer';
+import { useInjectSaga } from 'utils/injectSaga';
+
+import AsyncRender from '../../components/AsyncRender';
+import { fetchUsers } from './actions';
+import reducer from './reducer';
+import saga from './saga';
+import { makeSelectError, makeSelectStatus, makeSelectUsers } from './selectors';
+
+const key = 'users';
+
+const Users = ({
+  dispatchFetchUsers,
+  error,
+  status,
+  users,
+}) => {
+  console.log(users);
+  useInjectReducer({ key, reducer });
+  useInjectSaga({ key, saga });
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatchFetchUsers();
+    }
+  }, []);
+
+  return (
+    <AsyncRender
+      Component={<div>Users Placeholder</div>}
+      error={error}
+      isError={!!error}
+      isLoading={status === 'loading' || status === 'idle'}
+    />
+  );
+};
+
+Users.propTypes = {
+  dispatchFetchUsers: PropTypes.func.isRequired,
+  error: PropTypes.bool.isRequired,
+  status: PropTypes.string.isRequired,
+  users: PropTypes.array.isRequired,
+};
+
+const mapStateToProps = createStructuredSelector({
+  error: makeSelectError(),
+  status: makeSelectStatus(),
+  users: makeSelectUsers(),
+});
+
+const mapDispatchToProps = dispatch => ({
+  dispatchFetchUsers: () => dispatch(fetchUsers()),
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(
+  withConnect,
+  memo,
+)(Users);

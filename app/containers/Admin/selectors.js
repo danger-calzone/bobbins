@@ -10,43 +10,43 @@ const selectAdmin = state => state.admin || initialState;
 const makeSelectError = () =>
   createSelector(
     selectAdmin,
-    usersManagement => usersManagement.error,
+    adminState => adminState.error,
   );
 
 const makeSelectErrorMessage = () =>
   createSelector(
     selectAdmin,
-    usersManagement => usersManagement.errorMessage,
+    adminState => adminState.errorMessage,
   );
 
 const makeSelectPassword = () =>
   createSelector(
     selectAdmin,
-    usersManagement => usersManagement.password,
+    adminState => adminState.password,
   );
 
 const makeSelectRoles = () =>
   createSelector(
     selectAdmin,
-    usersManagement => usersManagement.roles,
+    adminState => adminState.roles,
   );
 
 const makeSelectStatus = () =>
   createSelector(
     selectAdmin,
-    usersManagement => usersManagement.status,
+    adminState => adminState.status,
   );
 
 const makeSelectSuccessMessage = () =>
   createSelector(
     selectAdmin,
-    usersManagement => usersManagement.successMessage,
+    adminState => adminState.successMessage,
   );
 
 const makeSelectUsername = () =>
   createSelector(
     selectAdmin,
-    usersManagement => usersManagement.username,
+    adminState => adminState.username,
   );
 
 export {

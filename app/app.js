@@ -13,7 +13,7 @@ import FeaturePage from 'containers/FeaturePage/Loadable';
 import LoginPage from 'containers/LoginPage';
 import Navigation from 'containers/Navigation';
 import User from 'containers/Users/Loadable';
-import Admin from 'containers/UsersManagement/Loadable';
+import Admin from 'containers/Admin/Loadable';
 import Upload from 'containers/Upload';
 
 // Import Language Provider and store configuration
