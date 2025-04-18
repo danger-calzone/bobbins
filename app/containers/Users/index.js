@@ -40,7 +40,13 @@ const Users = ({
 
   return (
     <AsyncRender
-      Component={<div>Users Placeholder</div>}
+      Component={
+        <ul>
+          {users.map(({ username }) => (
+            <li>{username}</li>
+          ))}
+        </ul>
+      }
       error={error}
       isError={!!error}
       isLoading={status === 'loading' || status === 'idle'}
