@@ -64,7 +64,7 @@ const Admin = ({
     dispatchFetchUserRoles();
   }, []);
 
-  const isAuthenticated = useAuth();
+  const { isAuthenticated } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [selectedRole, setSelectedRole] = React.useState('');
 
@@ -76,101 +76,99 @@ const Admin = ({
   const hasBannerError = status === 'rejected' && errorMessage;
   const hasBannerSuccess = status === 'resolved' && successMessage;
 
-  if (isAuthenticated) {
-    return (
-      <AsyncRender
-        Component={
-          <FormWrapper>
-            <br />
-            {hasBannerError && (
-              <Alert severity="error" sx={{ marginBottom: '1rem' }}>
-                {errorMessage}
-              </Alert>
-            )}
-            {hasBannerSuccess && (
-              <Alert severity="success" sx={{ marginBottom: '1rem' }}>
-                {successMessage}
-              </Alert>
-            )}
-            <FormControl>
-              <InputLabel htmlFor="filled-adornment-Username">
-                Username
-              </InputLabel>
-              <OutlinedInput
-                id="login-username"
-                label="Username"
-                onChange={e =>
-                  dispatchOnChange({ input: 'username', value: e.target.value })
-                }
-                onFocus={dispatchResetErrors}
-                placeholder="required"
-                value={username}
-              />
-            </FormControl>
-            <br />
-            <FormControl>
-              <InputLabel htmlFor="filled-adornment-Password">
-                Password
-              </InputLabel>
-              <OutlinedInput
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                id="login-password"
-                label="Password"
-                onChange={e =>
-                  dispatchOnChange({ input: 'password', value: e.target.value })
-                }
-                onFocus={dispatchResetErrors}
-                placeholder="required"
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-              />
-            </FormControl>
-            <FormControl>
-              <InputLabel id="demo-simple-select-label">Role</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={selectedRole}
-                label="Role"
-                onChange={handleSelectChange}
-              >
-                {roles.map(({ id, role }) => (
-                  <MenuItem value={id}>{capitalize(role)}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <LoadingButton
-              loading={false}
-              onClick={() =>
-                dispatchCreateUser({
-                  password,
-                  role: selectedRole,
-                  username,
-                })
+  return (
+    <AsyncRender
+      Component={
+        <FormWrapper>
+          <br />
+          {hasBannerError && (
+            <Alert severity="error" sx={{ marginBottom: '1rem' }}>
+              {errorMessage}
+            </Alert>
+          )}
+          {hasBannerSuccess && (
+            <Alert severity="success" sx={{ marginBottom: '1rem' }}>
+              {successMessage}
+            </Alert>
+          )}
+          <FormControl>
+            <InputLabel htmlFor="filled-adornment-Username">
+              Username
+            </InputLabel>
+            <OutlinedInput
+              id="login-username"
+              label="Username"
+              onChange={e =>
+                dispatchOnChange({ input: 'username', value: e.target.value })
               }
+              onFocus={dispatchResetErrors}
+              placeholder="required"
+              value={username}
+            />
+          </FormControl>
+          <br />
+          <FormControl>
+            <InputLabel htmlFor="filled-adornment-Password">
+              Password
+            </InputLabel>
+            <OutlinedInput
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              id="login-password"
+              label="Password"
+              onChange={e =>
+                dispatchOnChange({ input: 'password', value: e.target.value })
+              }
+              onFocus={dispatchResetErrors}
+              placeholder="required"
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+            />
+          </FormControl>
+          <FormControl>
+            <InputLabel id="demo-simple-select-label">Role</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={selectedRole}
+              label="Role"
+              onChange={handleSelectChange}
             >
-              <span>Create User</span>
-            </LoadingButton>
-          </FormWrapper>
-        }
-        error={error}
-        isError={!!error}
-        isLoading={status === 'loading' || status === 'idle'}
-      />
-    );
-  }
-
-  return <>public view</>;
+              {roles.map(({ id, role }) => (
+                <MenuItem value={id}>{capitalize(role)}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <LoadingButton
+            loading={false}
+            onClick={() =>
+              dispatchCreateUser({
+                password,
+                role: selectedRole,
+                username,
+              })
+            }
+          >
+            <span>Create User</span>
+          </LoadingButton>
+        </FormWrapper>
+      }
+      error={error}
+      isAuthenticated={isAuthenticated}
+      isError={!!error}
+      isLoading={status === 'loading' || status === 'idle'}
+      PublicComponent={<></>}
+    />
+  );
 };
 
 Admin.propTypes = {

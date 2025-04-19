@@ -25,9 +25,16 @@ const makeSelectError = () =>
     dashboardState => dashboardState.error,
   );
 
+const makeSelectStatus = () =>
+  createSelector(
+    selectDashboard,
+    dashboardState => dashboardState.status,
+  );
+
 export {
   selectDashboard,
   makeSelectBobbins,
   makeSelectError,
+  makeSelectStatus,
   makeSelectUsername,
 };

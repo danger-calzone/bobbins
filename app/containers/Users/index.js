@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 
+import { useAuth } from 'utils/useAuth';
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
 
@@ -18,19 +19,18 @@ import AsyncRender from '../../components/AsyncRender';
 import { fetchUsers } from './actions';
 import reducer from './reducer';
 import saga from './saga';
-import { makeSelectError, makeSelectStatus, makeSelectUsers } from './selectors';
+import {
+  makeSelectError,
+  makeSelectStatus,
+  makeSelectUsers,
+} from './selectors';
 
 const key = 'users';
 
-const Users = ({
-  dispatchFetchUsers,
-  error,
-  status,
-  users,
-}) => {
-  console.log(users);
+const Users = ({ dispatchFetchUsers, error, status, users }) => {
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
+  const isAuthenticated = useAuth();
 
   useEffect(() => {
     if (status === 'idle') {
@@ -48,8 +48,10 @@ const Users = ({
         </ul>
       }
       error={error}
+      isAuthenticated={isAuthenticated}
       isError={!!error}
       isLoading={status === 'loading' || status === 'idle'}
+      PublicComponent={<div>Please log in to view.</div>}
     />
   );
 };

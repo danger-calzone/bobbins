@@ -54,6 +54,11 @@ function Navigation({ dispatchLogout }) {
             <HeaderLink hasTopMargin to="/about">
               About
             </HeaderLink>
+            {isAuthenticated && (
+              <HeaderLink hasTopMargin to="/users">
+                Users
+              </HeaderLink>
+            )}
             {isAuthenticated ? (
               <LogoutButton
                 onClick={() => dispatchLogout({ navigate })}
