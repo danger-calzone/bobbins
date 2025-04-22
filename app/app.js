@@ -12,7 +12,8 @@ import Dashboard from 'containers/Dashboard/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import LoginPage from 'containers/LoginPage';
 import Navigation from 'containers/Navigation';
-import User from 'containers/Users/Loadable';
+import Users from 'containers/Users/Loadable';
+import User from 'containers/User/Loadable';
 import Admin from 'containers/Admin/Loadable';
 import Upload from 'containers/Upload';
 
@@ -56,7 +57,8 @@ const createRoutes = isAdmin => [
       { path: 'features', element: <FeaturePage /> },
       { path: 'about', element: <AboutPage /> },
       { path: 'bobbins/:bobbinId', element: <BobbinPage /> },
-      { path: 'users', element: <User /> },
+      { path: 'users', element: <Users /> },
+      { path: 'users/:userId', element: <User />},
       ...(isAdmin ? adminRoutes : []), // Conditionally include admin routes
     ],
   },

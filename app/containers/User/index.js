@@ -16,39 +16,31 @@ import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
 
 import AsyncRender from '../../components/AsyncRender';
-import { fetchUsers } from './actions';
-import reducer from './reducer';
-import saga from './saga';
-import {
-  makeSelectError,
-  makeSelectStatus,
-  makeSelectUsers,
-} from './selectors';
+// import { fetchUsers } from './actions';
+// import reducer from './reducer';
+// import saga from './saga';
+// import {
+//   makeSelectError,
+//   makeSelectStatus,
+//   makeSelectUsers,
+// } from './selectors';
 
-const key = 'users';
+const key = 'user';
 
-const Users = ({ dispatchFetchUsers, error, status, users }) => {
-  useInjectReducer({ key, reducer });
-  useInjectSaga({ key, saga });
+const User = ({ dispatchFetchUsers, error, status, users }) => {
+  // useInjectReducer({ key, reducer });
+  // useInjectSaga({ key, saga });
   const isAuthenticated = useAuth();
 
-  useEffect(() => {
-    if (status === 'idle') {
-      dispatchFetchUsers();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (status === 'idle') {
+  //     dispatchFetchUsers();
+  //   }
+  // }, []);
 
   return (
     <AsyncRender
-      Component={
-        <ul>
-          {users.map(({ username }) => (
-            <li>
-              <a href={`http://localhost:3000/users/${username}`}>{username}</a>
-            </li>
-          ))}
-        </ul>
-      }
+      Component={<ul>user page</ul>}
       error={error}
       isAuthenticated={isAuthenticated}
       isError={!!error}
@@ -58,7 +50,7 @@ const Users = ({ dispatchFetchUsers, error, status, users }) => {
   );
 };
 
-Users.propTypes = {
+User.propTypes = {
   dispatchFetchUsers: PropTypes.func.isRequired,
   error: PropTypes.bool.isRequired,
   status: PropTypes.string.isRequired,
@@ -66,13 +58,13 @@ Users.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  error: makeSelectError(),
-  status: makeSelectStatus(),
-  users: makeSelectUsers(),
+  // error: makeSelectError(),
+  // status: makeSelectStatus(),
+  // users: makeSelectUsers(),
 });
 
 const mapDispatchToProps = dispatch => ({
-  dispatchFetchUsers: () => dispatch(fetchUsers()),
+  // dispatchFetchUsers: () => dispatch(fetchUsers()),
 });
 
 const withConnect = connect(
@@ -83,4 +75,4 @@ const withConnect = connect(
 export default compose(
   withConnect,
   memo,
-)(Users);
+)(User);
