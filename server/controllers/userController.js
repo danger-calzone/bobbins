@@ -7,7 +7,7 @@ const { User } = db;
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll({
-      attributes: ['username'],
+      attributes: ['id', 'username'],
     });
     res.json(users);
   } catch (error) {

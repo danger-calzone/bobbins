@@ -42,9 +42,9 @@ const Users = ({ dispatchFetchUsers, error, status, users }) => {
     <AsyncRender
       Component={
         <ul>
-          {users.map(({ username }) => (
+          {users.map(({ id, username }) => (
             <li>
-              <a href={`http://localhost:3000/users/${username}`}>{username}</a>
+              <a href={`http://localhost:3000/users/${id}`}>{username}</a>
             </li>
           ))}
         </ul>
