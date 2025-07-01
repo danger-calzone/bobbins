@@ -9,7 +9,6 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
-import { useAuth } from 'utils/useAuth';
 import { createStructuredSelector } from 'reselect';
 import capitalize from 'lodash/capitalize';
 
@@ -64,7 +63,6 @@ const Admin = ({
     dispatchFetchUserRoles();
   }, []);
 
-  const { isAuthenticated } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [selectedRole, setSelectedRole] = React.useState('');
 
@@ -163,10 +161,8 @@ const Admin = ({
         </FormWrapper>
       }
       error={error}
-      isAuthenticated={isAuthenticated}
       isError={!!error}
       isLoading={status === 'loading' || status === 'idle'}
-      PublicComponent={<></>}
     />
   );
 };

@@ -12,7 +12,6 @@ import { createStructuredSelector } from 'reselect';
 import { Link, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { useAuth } from 'utils/useAuth';
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
 
@@ -32,7 +31,7 @@ const key = 'user';
 const User = ({ bobbins, dispatchFetchBobbins, error, status }) => {
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
-  const isAuthenticated = useAuth();
+
   const { userId } = useParams();
 
   useEffect(() => {
@@ -60,10 +59,8 @@ const User = ({ bobbins, dispatchFetchBobbins, error, status }) => {
         </div>
       }
       error={error}
-      isAuthenticated={isAuthenticated}
       isError={!!error}
       isLoading={status === 'loading' || status === 'idle'}
-      PublicComponent={<div>Please log in to view.</div>}
     />
   );
 };

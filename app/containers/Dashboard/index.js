@@ -9,7 +9,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
-import { useAuth } from 'utils/useAuth';
+
 import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
@@ -42,15 +42,13 @@ const Dashboard = ({
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
 
-  const isAuthenticated = useAuth();
-
   useEffect(() => {
     // status check
     if (isEmpty(bobbins)) {
       dispatchFetchBobbins();
     }
     // setIsAuthenticated(useAuth);
-  }, [dispatchFetchBobbins, isAuthenticated]);
+  }, [dispatchFetchBobbins]);
 
   // secondary nav menu, maybe first one is public and second one is private
   // Bobbins page / profile for now
@@ -80,11 +78,9 @@ const Dashboard = ({
           </BobbinsWrapper>
         </>
       }
-      isAuthenticated={isAuthenticated}
       isError={!!error}
       isLoading={status === 'loading' || status === 'idle'}
       error={error}
-      PublicComponent={<>public view</>}
     />
   );
 };

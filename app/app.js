@@ -23,6 +23,8 @@ import configureStore from './configureStore';
 import { useAuth } from './utils/useAuth';
 import { translationMessages } from './i18n';
 
+import ProtectedRoute from './components/ProtectedRoute';
+
 // Font observer for Open Sans
 const openSansObserver = new FontFaceObserver('Open Sans', {});
 openSansObserver.load().then(() => {
@@ -38,11 +40,19 @@ const root = createRoot(container);
 const adminRoutes = [
   {
     path: 'admin',
-    element: <Admin />,
+    element: (
+      <ProtectedRoute>
+        <Admin />
+      </ProtectedRoute>
+    ),
   },
   {
     path: 'upload',
-    element: <Upload />,
+    element: (
+      <ProtectedRoute>
+        <Upload />
+      </ProtectedRoute>
+    ),
   },
 ];
 
@@ -58,7 +68,7 @@ const createRoutes = isAdmin => [
       { path: 'about', element: <AboutPage /> },
       { path: 'bobbins/:bobbinId', element: <BobbinPage /> },
       { path: 'users', element: <Users /> },
-      { path: 'users/:userId', element: <User />},
+      { path: 'users/:userId', element: <User /> },
       ...(isAdmin ? adminRoutes : []), // Conditionally include admin routes
     ],
   },
