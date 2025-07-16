@@ -85,6 +85,7 @@
     "cross-env": "5.2.0",
     "dotenv": "16.3.1",
     "express": "^4.16.4",
+    "express-rate-limit": "^7.2.0",
     "express-session": "1.17.3",
     "fontfaceobserver": "2.1.0",
     "history": "4.9.0",
@@ -98,6 +99,7 @@
     "minimist": "1.2.0",
     "mysql2": "3.6.0",
     "passport": "0.6.0",
+    "passport-jwt": "^4.0.1",
     "passport-local": "1.0.0",
     "pg": "8.10.0",
     "prop-types": "15.7.2",
@@ -111,9 +113,10 @@
     "redux-saga": "1.0.2",
     "reselect": "4.0.0",
     "sanitize.css": "8.0.0",
-    "sequelize": "6.32.1",
+    "sequelize": "^6.32.1",
     "sqlite3": "5.1.6",
-    "styled-components": "4.4.1"
+    "styled-components": "4.4.1",
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
@@ -172,6 +175,7 @@
     "react-test-renderer": "16.8.6",
     "react-testing-library": "6.1.2",
     "rimraf": "2.6.3",
+    "sequelize-cli": "^6.6.2",
     "shelljs": "0.8.3",
     "style-loader": "0.23.1",
     "stylelint": "10.0.1",
