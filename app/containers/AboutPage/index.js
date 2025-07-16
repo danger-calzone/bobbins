@@ -16,7 +16,7 @@ import AboutSection from './AboutSection';
 import AboutContent from './AboutContent';
 import ArtistImg from './ArtistImage';
 import MemberTitle from './MemberTitle';
-import Subheader from './Subheader';
+import Subheader from './SubHeader';
 import TeamMemberSection from './TeamMemberSection';
 
 export default function AboutPage() {
