@@ -33,12 +33,6 @@ const makeSelectError = () =>
     globalState => globalState.error,
   );
 
-const makeSelectRepos = () =>
-  createSelector(
-    selectGlobal,
-    globalState => globalState.userData.repositories,
-  );
-
 const makeSelectLocation = () =>
   createSelector(
     selectRouter,
@@ -51,6 +45,5 @@ export {
   makeSelectError,
   makeSelectGlobal,
   makeSelectLoading,
-  makeSelectRepos,
   makeSelectLocation,
 };
