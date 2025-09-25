@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -13,9 +14,7 @@ const { resolve } = require('path');
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const db = require('./config/database');
-const { User } = require('./models');
-const models = require('./models');
+const { sequelize, User } = require('./models');
 const bobbinRoutes = require('./routes/bobbinRoutes');
 const userRoutes = require('./routes/userRoutes');
 const roleRoutes = require('./routes/roleRoutes');
@@ -27,16 +26,16 @@ const setup = require('./middlewares/frontendMiddleware');
 const authenticateRegistration = require('./middlewares/authenticateRegistration');
 const isDev = process.env.NODE_ENV !== 'production';
 
-db.authenticate()
-  .then(() => console.log('Database connected'))
-  .catch(err => console.error('Error connecting to database:', err));
+sequelize
+  .authenticate()
+  .then(() => console.log('✅ Database connected'))
+  .catch(err => console.error('❌ Error connecting to database:', err));
 
 const ngrok =
   (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel
     ? // eslint-disable-next-line import/order
     require('ngrok')
     : false;
-require('dotenv').config();
 
 // const loginLimiter = rateLimit({
 //   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -52,7 +51,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: 'http://localhost:3000', // Restrict domains
+    origin: isDev ? 'http://localhost:3000' : process.env.CLIENT_ORIGIN,
     credentials: true,
     methods: ['GET', 'PUT', 'PATCH', 'POST', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -252,7 +251,7 @@ app.get('*.js', (req, res, next) => {
 
 try {
   // Start your app.
-  models.sequelize
+  sequelize
     .sync()
     .then(() => {
       // eslint-disable-next-line consistent-return
