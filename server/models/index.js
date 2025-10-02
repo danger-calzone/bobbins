@@ -1,4 +1,5 @@
 require('dotenv').config();
+console.log('📦 NODE_ENV from models/index.js:', process.env.NODE_ENV);
 
 const fs = require('fs');
 const path = require('path');

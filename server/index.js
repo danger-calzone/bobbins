@@ -1,4 +1,5 @@
 require('dotenv').config();
+console.log('🌍 NODE_ENV from server/index.js:', process.env.NODE_ENV);
 const express = require('express');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
