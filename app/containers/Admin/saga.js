@@ -4,6 +4,7 @@
 
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { get, post } from '../../utils/request';
+import { API_BASE_URL } from '../../src/config';
 
 import {
   fetchUserRolesFailure,
@@ -16,7 +17,7 @@ import { FETCH_USER_ROLES, REGISTER_USER } from './constants';
 export function* registerUserSaga({ payload }) {
   const { navigate, password, role, username } = payload;
   try {
-    const result = yield call(post, 'http://localhost:3000/api/users', {
+    const result = yield call(post, `${API_BASE_URL}/users`, {
       isAuthRoute: true,
       payload: {
         password,
@@ -36,7 +37,7 @@ export function* registerUserSaga({ payload }) {
 
 export function* fetchUserRolesSaga() {
   try {
-    const result = yield call(get, 'http://localhost:3000/api/roles', {
+    const result = yield call(get, `${API_BASE_URL}/roles`, {
       isAuthRoute: true,
     });
     yield put(fetchUserRolesSuccess({ roles: result }));

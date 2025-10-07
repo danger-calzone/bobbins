@@ -5,6 +5,7 @@ import { decode } from 'jsonwebtoken';
 
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { get } from '../../utils/request';
+import { API_BASE_URL } from '../../src/config';
 
 import { fetchBobbinsFailure, fetchBobbinsSuccess } from './actions';
 import { FETCH_BOBBINS } from './constants';
@@ -19,7 +20,7 @@ export function* fetchBobbinsSaga() {
     const decodedToken = decode(token);
     const result = yield call(
       get,
-      `http://localhost:3000/api/bobbins/owner/${decodedToken.id}`,
+      `${API_BASE_URL}/bobbins/owner/${decodedToken.id}`,
       { isAuthRoute: true },
     );
     yield put(fetchBobbinsSuccess({ bobbins: result }));

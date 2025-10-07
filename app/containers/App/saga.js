@@ -4,6 +4,7 @@
 
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { post } from '../../utils/request';
+import { API_BASE_URL } from '../../src/config';
 import { logoutFailure } from '../Dashboard/actions';
 import { logoutSuccess } from '../LoginPage/actions';
 import { LOGOUT } from './constants';
@@ -14,7 +15,7 @@ import { LOGOUT } from './constants';
 export function* logoutSaga({ payload }) {
   const { navigate } = payload;
   try {
-    yield call(post, 'http://localhost:3000/api/logout', {
+    yield call(post, `${API_BASE_URL}/logout`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('session')}`,
       },

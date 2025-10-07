@@ -4,6 +4,7 @@
 
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { post } from '../../utils/request';
+import { API_BASE_URL } from '../../src/config';
 
 import { loginFailure, loginSuccess } from './actions';
 
@@ -15,7 +16,7 @@ import { LOGIN_REQUEST } from './constants';
 export function* loginSaga({ payload }) {
   const { navigate, password, username } = payload;
   try {
-    const { token } = yield call(post, 'http://localhost:3000/api/login', {
+    const { token } = yield call(post, `${API_BASE_URL}/login`, {
       credentials: 'include',
       payload: { password, username },
     });

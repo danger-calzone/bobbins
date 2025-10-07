@@ -4,6 +4,7 @@
 
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { get } from '../../utils/request';
+import { API_BASE_URL } from '../../src/config';
 
 import { fetchBobbinFailure, fetchBobbinSuccess } from './actions';
 
@@ -15,13 +16,9 @@ import { FETCH_BOBBIN } from './constants';
 export function* fetchBobbinSaga({ payload }) {
   try {
     const { bobbinId } = payload;
-    const result = yield call(
-      get,
-      `http://localhost:3000/api/bobbins/${bobbinId}`,
-      {
-        isAuthRoute: true,
-      },
-    );
+    const result = yield call(get, `${API_BASE_URL}/bobbins/${bobbinId}`, {
+      isAuthRoute: true,
+    });
     yield put(fetchBobbinSuccess({ bobbinInfo: result }));
   } catch (err) {
     yield put(fetchBobbinFailure({ errorMessage: 'FAILURE' }));
