@@ -60,7 +60,9 @@ app.use(
   }),
 );
 
-app.options('*', cors());
+app.options('*', (req, res) => {
+  res.sendStatus(200);
+});
 
 const opts = {
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
