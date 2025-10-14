@@ -1,5 +1,6 @@
 require('dotenv').config();
 console.log('🌍 NODE_ENV from server/index.js:', process.env.NODE_ENV);
+console.log('REMOVE THIS CLIENT_ORIGIN:', process.env.CLIENT_ORIGIN);
 const express = require('express');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
