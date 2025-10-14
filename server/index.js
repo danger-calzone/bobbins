@@ -60,6 +60,8 @@ app.use(
   }),
 );
 
+app.options('*', cors());
+
 const opts = {
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.ACCESS_TOKEN_SECRET,
