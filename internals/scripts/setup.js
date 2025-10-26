@@ -6,7 +6,10 @@ const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
 const compareVersions = require('compare-versions');
-const chalk = require('chalk');
+(async () => {
+  const chalk = await import('chalk');
+  console.log(chalk.default.green('Logger initialized.'));
+})();
 
 const animateProgress = require('./helpers/progress');
 const addCheckMark = require('./helpers/checkmark');

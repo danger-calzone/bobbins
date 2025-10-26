@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 
 const shelljs = require('shelljs');
-const chalk = require('chalk');
+(async () => {
+  const chalk = await import('chalk');
+  console.log(chalk.default.green('Logger initialized.'));
+})();
 const animateProgress = require('./helpers/progress');
 const addCheckMark = require('./helpers/checkmark');
 

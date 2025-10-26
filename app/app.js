@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -36,27 +36,6 @@ const store = configureStore(initialState);
 const container = document.getElementById('app');
 const root = createRoot(container);
 
-// Define admin-specific routes
-const adminRoutes = [
-  {
-    path: 'admin',
-    element: (
-      <ProtectedRoute>
-        <Admin />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: 'upload',
-    element: (
-      <ProtectedRoute>
-        <Upload />
-      </ProtectedRoute>
-    ),
-  },
-];
-
-// Route-creation function
 const createRoutes = isAdmin => [
   {
     path: '/',
@@ -69,7 +48,26 @@ const createRoutes = isAdmin => [
       { path: 'bobbins/:bobbinId', element: <BobbinPage /> },
       { path: 'users', element: <Users /> },
       { path: 'users/:userId', element: <User /> },
-      ...(isAdmin ? adminRoutes : []), // Conditionally include admin routes
+      ...(isAdmin
+        ? [
+            {
+              path: 'admin',
+              element: (
+                <ProtectedRoute>
+                  <Admin />
+                </ProtectedRoute>
+              ),
+            },
+            {
+              path: 'upload',
+              element: (
+                <ProtectedRoute>
+                  <Upload />
+                </ProtectedRoute>
+              ),
+            },
+          ]
+        : []),
     ],
   },
 ];
@@ -78,10 +76,11 @@ const createRoutes = isAdmin => [
 const AuthWrapper = () => {
   const { isAuthenticated, role } = useAuth();
   const isAdmin = isAuthenticated && role === 'admin';
-  const routes = createRoutes(isAdmin);
 
-  // Directly pass the route configuration to RouterProvider
-  return <RouterProvider router={createBrowserRouter(routes)} />;
+  const routes = useMemo(() => createRoutes(isAdmin), [isAdmin]);
+  const router = useMemo(() => createBrowserRouter(routes), [routes]);
+
+  return <RouterProvider router={router} />;
 };
 
 // Function to render the app

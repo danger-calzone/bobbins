@@ -45,17 +45,17 @@ function Navigation({ dispatchLogout }) {
         </ImageWrapper>
         <NavBar>
           <LinkWrapper>
-            <HeaderLink hasTopMargin to="/dashboard">
+            <HeaderLink $hasTopMargin to="/dashboard">
               Home
             </HeaderLink>
-            <HeaderLink hasTopMargin to="/features">
+            <HeaderLink $hasTopMargin to="/features">
               Features
             </HeaderLink>
-            <HeaderLink hasTopMargin to="/about">
+            <HeaderLink $hasTopMargin to="/about">
               About
             </HeaderLink>
             {isAuthenticated && (
-              <HeaderLink hasTopMargin to="/users">
+              <HeaderLink $hasTopMargin to="/users">
                 Users
               </HeaderLink>
             )}

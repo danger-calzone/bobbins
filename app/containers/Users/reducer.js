@@ -1,4 +1,4 @@
-import produce from 'immer';
+import { produce } from 'immer';
 import {
   FETCH_USERS,
   FETCH_USERS_FAILURE,

@@ -14,7 +14,7 @@ export default styled(Link)`
   margin-bottom: 1em;
   margin-left: 1em;
   margin-right: 1em;
-  margin-top: ${props => (props.hasTopMargin ? `1em` : `0`)};
+  margin-top: ${props => (props.$hasTopMargin ? `1em` : `0`)};
   outline: 0;
   padding: 0.25em 2em;
   text-decoration: none;

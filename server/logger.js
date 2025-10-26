@@ -1,24 +1,48 @@
 /* eslint-disable no-console */
+const os = require('os');
 
-const chalk = require('chalk');
-const ip = require('ip');
+// Dynamically import chalk (ESM-only)
+let chalk;
+(async () => {
+  chalk = (await import('chalk')).default;
+  console.log(chalk.green('Logger initialized.'));
+})();
 
-const divider = chalk.gray('\n-----------------------------------');
+function getLocalIpAddress() {
+  const interfaces = os.networkInterfaces();
 
-/**
- * Logger middleware, you can customize it to make messages more personal
- */
+  for (const interfaceName of Object.keys(interfaces)) {
+    for (const iface of interfaces[interfaceName] || []) {
+      if (iface.family === 'IPv4' && !iface.internal) {
+        return iface.address;
+      }
+    }
+  }
+
+  return '127.0.0.1'; // fallback
+}
+
+const serverIp = getLocalIpAddress();
+
 const logger = {
-  // Called whenever there's an error on the server we want to print
   error: err => {
-    console.error(chalk.red(err));
+    if (chalk) {
+      console.error(chalk.red(err));
+    } else {
+      console.error(err);
+    }
   },
 
-  // Called when express.js app starts on given port w/o errors
   appStarted: (port, host, tunnelStarted) => {
-    console.log(`Server started ! ${chalk.green('✓')}`);
+    if (!chalk) {
+      console.log(`Server started!`);
+      return;
+    }
 
-    // If the tunnel started, log that and the URL it's available at
+    const divider = chalk.gray('\n-----------------------------------');
+
+    console.log(`Server started! ${chalk.green('✓')}`);
+
     if (tunnelStarted) {
       console.log(`Tunnel initialised ${chalk.green('✓')}`);
     }
@@ -26,7 +50,7 @@ const logger = {
     console.log(`
 ${chalk.bold('Access URLs:')}${divider}
 Localhost: ${chalk.magenta(`http://${host}:${port}`)}
-      LAN: ${chalk.magenta(`http://${ip.address()}:${port}`) +
+      LAN: ${chalk.magenta(`http://${serverIp}:${port}`) +
         (tunnelStarted
           ? `\n    Proxy: ${chalk.magenta(tunnelStarted)}`
           : '')}${divider}

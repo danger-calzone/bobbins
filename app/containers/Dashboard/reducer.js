@@ -1,4 +1,4 @@
-import produce from 'immer';
+import { produce } from 'immer';
 import {
   FETCH_BOBBINS,
   FETCH_BOBBINS_FAILURE,

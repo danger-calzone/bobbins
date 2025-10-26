@@ -6,7 +6,10 @@
  * 'rbgen' extension so it can be easily excluded from the test coverage reports.
  */
 
-const chalk = require('chalk');
+(async () => {
+  const chalk = await import('chalk');
+  console.log(chalk.default.green('Logger initialized.'));
+})();
 const fs = require('fs');
 const nodePlop = require('node-plop');
 const path = require('path');

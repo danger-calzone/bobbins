@@ -7,7 +7,7 @@
  *
  */
 
-import produce from 'immer';
+import { produce } from 'immer';
 import { UPDATE_SESSION } from './constants';
 
 // The initial state of the App

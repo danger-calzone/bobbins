@@ -1,4 +1,7 @@
-const chalk = require('chalk');
+(async () => {
+  const chalk = await import('chalk');
+  console.log(chalk.default.green('Logger initialized.'));
+})();
 
 /**
  * Adds mark cross symbol

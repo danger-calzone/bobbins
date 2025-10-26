@@ -1,29 +1,45 @@
 const db = require('../models');
-const { Bobbin } = db;
-
-// Controller method to get all Bobbins
-exports.getAllBobbins = async (req, res) => {
-  try {
-    console.log('BOBBIN', Bobbin);
-    const bobbins = await Bobbin.findAll();
-    res.json(bobbins);
-  } catch (error) {
-    console.log('ERROR', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
+const { Bobbin, Clothing, Expression, Mutation, User } = db;
 
 // Controller method to get a Bobbin by ID
 exports.getBobbinById = async (req, res) => {
   const { id } = req.params;
   try {
-    const bobbin = await Bobbin.findByPk(id);
+    const bobbin = await Bobbin.findByPk(id, {
+      include: [
+        {
+          model: User,
+          as: 'artists', // Alias used in associations
+        },
+        {
+          model: Clothing,
+          as: 'clothing', // Example for another association
+        },
+        {
+          model: Expression,
+          as: 'expressions', // Alias used in associations
+        },
+        {
+          model: Mutation,
+          as: 'mutations',
+        },
+        {
+          model: Bobbin,
+          as: 'offspringDetails',
+        },
+        {
+          model: Bobbin,
+          as: 'parentDetails',
+        },
+      ],
+    });
     if (bobbin) {
       res.json(bobbin);
     } else {
       res.status(404).json({ error: 'Bobbin not found' });
     }
   } catch (error) {
+    console.log('ERROR', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };

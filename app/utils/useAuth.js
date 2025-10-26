@@ -1,5 +1,4 @@
-import { decode } from 'jsonwebtoken';
-
+import { jwtDecode } from 'jwt-decode';
 import { getRoleString } from './getRoleString';
 
 export function useAuth(navigate) {
@@ -8,17 +7,26 @@ export function useAuth(navigate) {
     if (!token) return { isAuthenticated: false, role: null };
 
     const parsedToken = JSON.parse(token);
-    const decodedToken = decode(parsedToken);
-    if (!decodedToken || !decodedToken.exp)
+    let decodedToken;
+
+    try {
+      decodedToken = jwtDecode(parsedToken);
+    } catch (e) {
+      // If decode fails, remove malformed token
+      window.localStorage.removeItem('session');
       return { isAuthenticated: false, role: null };
+    }
+
+    if (!decodedToken?.exp) {
+      return { isAuthenticated: false, role: null };
+    }
 
     const currentDate = Date.now();
     const exp = decodedToken.exp * 1000;
-    const isValid = currentDate < exp;
 
-    if (!isValid) {
+    if (currentDate >= exp) {
       window.localStorage.removeItem('session');
-      navigate('/login'); // Only works if navigate is passed in
+      if (navigate) navigate('/login'); // for protected routing
       return { isAuthenticated: false, role: null };
     }
 

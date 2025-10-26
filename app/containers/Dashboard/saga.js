@@ -1,4 +1,4 @@
-import { decode } from 'jsonwebtoken';
+import { jwtDecode } from 'jwt-decode';
 /**
  * Gets the bobbins of the user
  */
@@ -17,7 +17,7 @@ export function* fetchBobbinsSaga() {
   try {
     const token = JSON.parse(window.localStorage.getItem('session'));
     if (!token) throw new Error();
-    const decodedToken = decode(token);
+    const decodedToken = jwtDecode(token);
     const result = yield call(
       get,
       `${API_BASE_URL}/bobbins/owner/${decodedToken.id}`,

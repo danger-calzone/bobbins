@@ -3,36 +3,29 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
-function createWebpackMiddleware(compiler, publicPath) {
-  return webpackDevMiddleware(compiler, {
-    logLevel: 'warn',
-    publicPath,
-    silent: true,
-    stats: 'errors-only',
-  });
-}
-
 module.exports = function addDevMiddlewares(app, webpackConfig) {
   const compiler = webpack(webpackConfig);
-  const middleware = createWebpackMiddleware(
-    compiler,
-    webpackConfig.output.publicPath,
-  );
+
+  const middleware = webpackDevMiddleware(compiler, {
+    publicPath: webpackConfig.output.publicPath,
+    stats: 'minimal', // or 'errors-only'
+  });
 
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler));
 
-  // Since webpackDevMiddleware uses memory-fs internally to store build
-  // artifacts, we use it instead
-  const fs = middleware.fileSystem;
+  // Access the in-memory file system via middleware context
+  const fs = middleware.context.outputFileSystem;
 
   app.get('*', (req, res) => {
-    fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
+    const filepath = path.join(compiler.outputPath, 'index.html');
+    fs.readFile(filepath, (err, file) => {
       if (err) {
+        console.error('File not found:', filepath);
         res.sendStatus(404);
-      } else {
-        res.send(file.toString());
+        return;
       }
+      res.send(file.toString());
     });
   });
 };
