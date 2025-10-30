@@ -14,7 +14,7 @@ import { createStructuredSelector } from 'reselect';
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 
-import { Alert } from '@mui/material';
+import Alert from '@mui/material/Alert';
 
 import AsyncRender from '../../components/AsyncRender';
 import { fetchBobbins } from './actions';

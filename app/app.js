@@ -104,8 +104,3 @@ if (module.hot) {
 
 // Initial render
 render(translationMessages);
-
-// Service worker for production
-if (process.env.NODE_ENV === 'production') {
-  require('offline-plugin/runtime').install();
-}
