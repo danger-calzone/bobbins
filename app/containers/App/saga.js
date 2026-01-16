@@ -2,16 +2,54 @@
  * Gets the repositories of the user from Github
  */
 
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { all, call, put, takeLatest } from 'redux-saga/effects';
+import { jwtDecode } from 'jwt-decode';
+
 import { post } from '../../utils/request';
 import { API_BASE_URL } from '../../src/config';
-import { logoutFailure } from '../Dashboard/actions';
-import { logoutSuccess } from '../LoginPage/actions';
-import { LOGOUT } from './constants';
 
-/**
- * Github repos request/response handler
- */
+import {
+  loginFailure,
+  loginSuccess,
+  logoutFailure,
+  logoutSuccess,
+  updateSession,
+} from './actions';
+import { LOGIN_REQUEST, LOGOUT } from './constants';
+
+export function* loginSaga({ payload }) {
+  const { navigate, password, username } = payload;
+  try {
+    const { token } = yield call(post, `${API_BASE_URL}/login`, {
+      credentials: 'include',
+      payload: { password, username },
+    });
+    localStorage.setItem('session', JSON.stringify(token));
+    let decoded;
+    try {
+      decoded = jwtDecode(token);
+    } catch (e) {
+      localStorage.removeItem('session');
+      throw new Error('Invalid token received');
+    }
+
+    // const role = decoded?.role != null ? getRoleString(Number(decoded.role)) : null;
+
+    yield put(
+      updateSession({
+        isAuthenticated: true,
+        role: 1,
+        // currentUser: username,
+      }),
+    );
+    yield put(loginSuccess());
+    navigate('/dashboard');
+  } catch (err) {
+    console.log('ERROR', err);
+    yield put(loginFailure({ errorMessage: err.message }));
+  }
+}
+
 export function* logoutSaga({ payload }) {
   const { navigate } = payload;
   try {
@@ -36,6 +74,9 @@ export function* logoutSaga({ payload }) {
 /**
  * Root saga manages watcher lifecycle
  */
-export default function* logout() {
-  yield takeLatest(LOGOUT, logoutSaga);
+export default function* authSaga() {
+  yield all([
+    takeLatest(LOGIN_REQUEST, loginSaga),
+    takeLatest(LOGOUT, logoutSaga),
+  ]);
 }

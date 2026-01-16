@@ -1,28 +1,8 @@
 import {
-  LOGIN_REQUEST,
-  LOGIN_FAILURE,
-  LOGIN_SUCCESS,
-  LOGOUT_SUCCESS,
   ON_CHANGE,
   RESET_ERRORS,
   RESET_FORM,
 } from './constants';
-
-export function loginRequest({ navigate, password, username }) {
-  return { payload: { navigate, password, username }, type: LOGIN_REQUEST };
-}
-
-export function loginFailure({ errorMessage }) {
-  return { payload: { errorMessage }, type: LOGIN_FAILURE };
-}
-
-export function loginSuccess() {
-  return { type: LOGIN_SUCCESS };
-}
-
-export function logoutSuccess({ successMessage }) {
-  return { payload: { successMessage }, type: LOGOUT_SUCCESS };
-}
 
 /**
  * Changes the input field of the form

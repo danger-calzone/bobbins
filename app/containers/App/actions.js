@@ -15,7 +15,27 @@
  *    }
  */
 
-import { LOGOUT, UPDATE_SESSION } from './constants';
+import {
+  LOGIN_FAILURE,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGOUT,
+  LOGOUT_FAILURE,
+  LOGOUT_SUCCESS,
+  UPDATE_SESSION,
+} from './constants';
+
+export function loginFailure({ errorMessage }) {
+  return { payload: { errorMessage }, type: LOGIN_FAILURE };
+}
+
+export function loginRequest({ navigate, password, username }) {
+  return { payload: { navigate, password, username }, type: LOGIN_REQUEST };
+}
+
+export function loginSuccess() {
+  return { type: LOGIN_SUCCESS };
+}
 
 export function logout({ navigate }) {
   return {
@@ -24,9 +44,18 @@ export function logout({ navigate }) {
   };
 }
 
-export function updateSession({ isLoggedIn }) {
+export function logoutFailure({ errorMessage }) {
+  return { payload: { errorMessage }, type: LOGOUT_FAILURE };
+}
+
+export function logoutSuccess({ successMessage }) {
+  return { payload: { successMessage }, type: LOGOUT_SUCCESS };
+}
+
+
+export function updateSession({ isAuthenticated, role }) {
   return {
-    isLoggedIn,
+    payload: { isAuthenticated, role },
     type: UPDATE_SESSION,
   };
 }

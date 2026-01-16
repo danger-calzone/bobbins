@@ -16,7 +16,3 @@ export function fetchBobbinsFailure({ errorMessage }) {
 export function fetchBobbinsSuccess({ bobbins }) {
   return { payload: { bobbins }, type: FETCH_BOBBINS_SUCCESS };
 }
-
-export function logoutFailure({ errorMessage }) {
-  return { payload: { errorMessage }, type: LOGOUT_FAILURE };
-}

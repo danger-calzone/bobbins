@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useInjectReducer } from 'utils/injectReducer';
-import { useInjectSaga } from 'utils/injectSaga';
 import Alert from '@mui/material/Alert';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
@@ -26,9 +25,9 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import FormWrapper from './FormWrapper';
-import { loginRequest, onChange, resetErrors, resetForm } from './actions';
+import { loginRequest } from '../App/actions';
+import { onChange, resetErrors, resetForm } from './actions';
 import reducer from './reducer';
-import saga from './saga';
 import {
   makeSelectError,
   makeSelectPassword,
@@ -51,7 +50,6 @@ const LoginPage = ({
   success,
 }) => {
   useInjectReducer({ key, reducer });
-  useInjectSaga({ key, saga });
 
   const [showPassword, setShowPassword] = useState(false);
 

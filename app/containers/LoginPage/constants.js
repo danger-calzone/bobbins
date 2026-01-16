@@ -9,12 +9,6 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
-export const LOGIN_REQUEST = 'bobbins/LoginPage/LOGIN_REQUEST';
-export const LOGIN_FAILURE = 'bobbins/LoginPage/LOGIN_FAILURE';
-export const LOGIN_SUCCESS = 'bobbins/LoginPage/LOGIN_SUCCESS';
-
-export const LOGOUT_SUCCESS = 'bobbins/LoginPage/LOGOUT_SUCCESS';
-
 export const ON_CHANGE = 'bobbins/LoginPage/ON_CHANGE';
 export const RESET_ERRORS = 'bobbins/LoginPage/RESET_ERRORS';
 export const RESET_FORM = 'bobbins/LoginPage/RESET_FORM';

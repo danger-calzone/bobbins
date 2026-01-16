@@ -12,3 +12,9 @@
 export const UPDATE_SESSION = 'bobbins/App/UPDATE_SESSION';
 
 export const LOGOUT = 'bobbins/App/LOGOUT';
+export const LOGOUT_FAILURE = 'bobbins/App/LOGOUT_FAILURE';
+export const LOGOUT_SUCCESS = 'bobbins/App/LOGOUT_SUCCESS';
+
+export const LOGIN_REQUEST = 'bobbins/App/LOGIN_REQUEST';
+export const LOGIN_FAILURE = 'bobbins/App/LOGIN_FAILURE';
+export const LOGIN_SUCCESS = 'bobbins/App/LOGIN_SUCCESS';
