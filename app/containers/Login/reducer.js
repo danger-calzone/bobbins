@@ -4,6 +4,11 @@ import {
   RESET_ERRORS,
   RESET_FORM,
 } from './constants';
+import {
+  LOGIN_FAILURE,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+} from '../App/constants';
 
 // The initial state of the App
 export const initialState = {
@@ -17,6 +22,15 @@ export const initialState = {
 const loginReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case LOGIN_FAILURE:
+        draft.status = 'failed';
+        break;
+      case LOGIN_SUCCESS:
+        draft.status = 'success';
+        break;
+      case LOGIN_REQUEST:
+        draft.status = 'loading';
+        break;
       case ON_CHANGE:
         draft[action.payload.input] = action.payload.value;
         break;
