@@ -34,7 +34,7 @@ export function HomePage() {
           content="A React.js Boilerplate application homepage"
         />
       </Helmet>
-      <div>Hello it's me</div>
+      <div>let me know what y'all would like here</div>
     </article>
   );
 }
