@@ -13,10 +13,14 @@ export default styled(Button).attrs({
     color: '#41addd',
     'line-height': '1.15',
     margin: '1em',
+    'min-height': '2.2rem',
     'min-width': '110.66px',
     'text-transform': 'none',
     'vertical-align': 'inherit',
+
+    '&:hover': {
+      backgroundColor: 'white',
+      boxShadow: 'none',
+    },
   },
-})`
-  height: 30.4px;
-`;
+})``;

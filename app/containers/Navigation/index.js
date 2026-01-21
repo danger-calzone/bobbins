@@ -68,6 +68,7 @@ function Navigation({ dispatchInitSession, dispatchLogout }) {
             )}
             {isAuthenticated ? (
               <LogoutButton
+                disableElevation
                 onClick={() => dispatchLogout({ navigate })}
                 variant="contained"
               >
