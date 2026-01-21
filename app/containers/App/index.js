@@ -28,10 +28,10 @@ function App() {
   return (
     <AppWrapper>
       <Helmet
-        titleTemplate="%s - React.js Boilerplate"
-        defaultTitle="React.js Boilerplate"
+        titleTemplate="Bobbins"
+        defaultTitle="Bobbins"
       >
-        <meta name="description" content="A React.js Boilerplate application" />
+        <meta name="description" content="Bobbins Website" />
       </Helmet>
       {/* <Header /> */}
       {/* <Footer /> */}

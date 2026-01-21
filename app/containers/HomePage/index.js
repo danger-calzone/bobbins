@@ -31,7 +31,7 @@ export function HomePage() {
         <title>Home Page</title>
         <meta
           name="description"
-          content="A React.js Boilerplate application homepage"
+          content="A Bobbins website homepage"
         />
       </Helmet>
       <div>let me know what y'all would like here</div>
