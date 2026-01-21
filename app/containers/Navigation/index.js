@@ -1,5 +1,5 @@
 // Navigation.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -17,7 +17,7 @@ import LinkWrapper from './LinkWrapper';
 import LogoutButton from './LogoutButton';
 
 import saga from '../App/saga';
-import { logout } from '../App/actions';
+import { initSession, logout } from '../App/actions';
 import { ROLE } from '../App/roles';
 
 const AppWrapper = styled.div`
@@ -32,9 +32,14 @@ const AppWrapper = styled.div`
 
 const key = 'main';
 
-function Navigation({ dispatchLogout }) {
+function Navigation({ dispatchInitSession, dispatchLogout }) {
   useInjectSaga({ key, saga });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatchInitSession();
+  }, [dispatchInitSession]);
+
   const isAuthenticated = useSelector(state => state.global.isAuthenticated);
   const role = useSelector(state => state.global.role);
   const isAdmin = isAuthenticated && Number(role) === ROLE.ADMIN;
@@ -91,6 +96,7 @@ Navigation.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
+  dispatchInitSession: () => dispatch(initSession()),
   dispatchLogout: ({ navigate }) => dispatch(logout({ navigate })),
 });
 

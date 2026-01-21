@@ -15,7 +15,45 @@ import {
   logoutSuccess,
   updateSession,
 } from './actions';
-import { LOGIN_REQUEST, LOGOUT } from './constants';
+import { INIT_SESSION, LOGIN_REQUEST, LOGOUT } from './constants';
+
+function* initSessionSaga() {
+  const raw = localStorage.getItem('session');
+  if (!raw) {
+    yield put(updateSession({ currentUser: null, isAuthenticated: false, role: null }));
+    return;
+  }
+
+  let token;
+  try {
+    token = JSON.parse(raw);
+  } catch {
+    localStorage.removeItem('session');
+    yield put(updateSession({ currentUser: null, isAuthenticated: false, role: null }));
+    return;
+  }
+
+  let decoded;
+  try {
+    decoded = jwtDecode(token);
+  } catch {
+    localStorage.removeItem('session');
+    yield put(updateSession({ currentUser: null, isAuthenticated: false, role: null }));
+    return;
+  }
+
+  const expMs = decoded?.exp ? decoded.exp * 1000 : 0;
+  if (!expMs || Date.now() >= expMs) {
+    localStorage.removeItem('session');
+    yield put(updateSession({ currentUser: null, isAuthenticated: false, role: null }));
+    return;
+  }
+
+  const role = decoded?.role != null ? Number(decoded.role) : null;
+
+  // ✅ Valid session: mark checked and logged in
+  yield put(updateSession({ isAuthenticated: true, role }));
+}
 
 export function* loginSaga({ payload }) {
   const { navigate, password, username } = payload;
@@ -74,6 +112,7 @@ export function* logoutSaga({ payload }) {
  */
 export default function* authSaga() {
   yield all([
+    takeLatest(INIT_SESSION, initSessionSaga),
     takeLatest(LOGIN_REQUEST, loginSaga),
     takeLatest(LOGOUT, logoutSaga),
   ]);

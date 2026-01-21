@@ -12,7 +12,8 @@ import { LOGOUT_FAILURE, LOGOUT_SUCCESS, UPDATE_SESSION } from './constants';
 
 // The initial state of the App
 export const initialState = {
-  currentUser: false,
+  authChecked: false,
+  currentUser: null,
   error: false,
   isAuthenticated: false,
   loading: false,
@@ -39,6 +40,7 @@ const appReducer = (state = initialState, action) =>
         if (typeof currentUser !== 'undefined') {
           draft.currentUser = currentUser;
         }
+        draft.authChecked = true;
         break;
     }
   });

@@ -16,6 +16,7 @@
  */
 
 import {
+  INIT_SESSION,
   LOGIN_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -24,6 +25,10 @@ import {
   LOGOUT_SUCCESS,
   UPDATE_SESSION,
 } from './constants';
+
+export function initSession() {
+  return { type: INIT_SESSION };
+};
 
 export function loginFailure({ errorMessage }) {
   return { payload: { errorMessage }, type: LOGIN_FAILURE };
