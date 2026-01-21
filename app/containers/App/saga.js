@@ -81,8 +81,7 @@ export function* loginSaga({ payload }) {
     yield put(loginSuccess());
     navigate('/dashboard');
   } catch (err) {
-    console.log('ERROR', err);
-    yield put(loginFailure({ errorMessage: err.message }));
+    yield put(loginFailure({ errorMessage: 'Invalid username or password' }));
   }
 }
 
@@ -96,7 +95,7 @@ export function* logoutSaga({ payload }) {
       payload: {},
     });
     localStorage.removeItem('session');
-    yield put(logoutSuccess({ successMessage: 'Logged Out!' }));
+    yield put(logoutSuccess({ successMessage: 'You have been logged out!' }));
     navigate('/login');
   } catch (err) {
     yield put(
