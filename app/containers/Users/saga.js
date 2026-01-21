@@ -10,13 +10,11 @@ import { FETCH_USERS } from './constants';
 
 export function* fetchUsersSaga() {
   try {
-    const result = yield call(get, '/api/users', {
+    const result = yield call(get, `${API_BASE_URL}/api/users`, {
       isAuthRoute: true,
     });
-    console.log('IN SAGA SUCCESS');
     yield put(fetchUsersSuccess({ users: result }));
   } catch (err) {
-    console.log('IN SAGA ERROR', err);
     yield put(fetchUsersFailure({ errorMessage: err.message }));
   }
 }
