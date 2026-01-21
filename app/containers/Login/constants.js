@@ -9,6 +9,7 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
+export const CLEAR_LOGOUT_MESSAGE = 'bobbins/Login/CLEAR_LOGOUT_MESSAGE';
 export const ON_CHANGE = 'bobbins/Login/ON_CHANGE';
 export const RESET_ERRORS = 'bobbins/Login/RESET_ERRORS';
 export const RESET_FORM = 'bobbins/Login/RESET_FORM';

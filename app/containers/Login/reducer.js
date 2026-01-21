@@ -1,5 +1,6 @@
 import { produce } from 'immer';
 import {
+  CLEAR_LOGOUT_MESSAGE,
   ON_CHANGE,
   RESET_ERRORS,
   RESET_FORM,
@@ -24,6 +25,9 @@ export const initialState = {
 const loginReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case CLEAR_LOGOUT_MESSAGE:
+        draft.success = '';
+        break;
       case LOGIN_FAILURE:
         const { errorMessage } = action.payload;
         draft.status = 'failed';
@@ -34,6 +38,8 @@ const loginReducer = (state = initialState, action) =>
         break;
       case LOGIN_REQUEST:
         draft.status = 'loading';
+        draft.error = '';
+        draft.success = '';
         break;
       case LOGOUT_SUCCESS:
         const { successMessage } = action.payload;

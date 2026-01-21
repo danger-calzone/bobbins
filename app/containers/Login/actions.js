@@ -1,8 +1,13 @@
 import {
+  CLEAR_LOGOUT_MESSAGE,
   ON_CHANGE,
   RESET_ERRORS,
   RESET_FORM,
 } from './constants';
+
+export function clearLogoutMessage() {
+  return { type: CLEAR_LOGOUT_MESSAGE };
+}
 
 /**
  * Changes the input field of the form

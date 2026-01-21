@@ -26,7 +26,12 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 import FormWrapper from './FormWrapper';
 import { loginRequest } from '../App/actions';
-import { onChange, resetErrors, resetForm } from './actions';
+import {
+  clearLogoutMessage,
+  onChange,
+  resetErrors,
+  resetForm,
+} from './actions';
 import reducer from './reducer';
 import {
   makeSelectError,
@@ -40,6 +45,7 @@ const key = 'login';
 
 const Login = ({
   error,
+  dispatchClearLogoutMessage,
   dispatchLoginRequest,
   dispatchOnChange,
   dispatchResetErrors,
@@ -50,6 +56,16 @@ const Login = ({
   success,
 }) => {
   useInjectReducer({ key, reducer });
+
+  useEffect(() => {
+    if (!success) return;
+  
+    const timeout = setTimeout(() => {
+      dispatchClearLogoutMessage();
+    }, 1500);
+  
+    return () => clearTimeout(timeout);
+  }, [success]);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -141,6 +157,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
+  dispatchClearLogoutMessage: () => dispatch(clearLogoutMessage()),
   dispatchLoginRequest: ({ navigate, password, username }) =>
     dispatch(loginRequest({ navigate, password, username })),
   dispatchOnChange: ({ input, value }) => dispatch(onChange({ input, value })),
