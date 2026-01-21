@@ -9,6 +9,6 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
-export const ON_CHANGE = 'bobbins/LoginPage/ON_CHANGE';
-export const RESET_ERRORS = 'bobbins/LoginPage/RESET_ERRORS';
-export const RESET_FORM = 'bobbins/LoginPage/RESET_FORM';
+export const ON_CHANGE = 'bobbins/Login/ON_CHANGE';
+export const RESET_ERRORS = 'bobbins/Login/RESET_ERRORS';
+export const RESET_FORM = 'bobbins/Login/RESET_FORM';

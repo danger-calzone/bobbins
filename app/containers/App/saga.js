@@ -33,12 +33,10 @@ export function* loginSaga({ payload }) {
       throw new Error('Invalid token received');
     }
 
-    // const role = decoded?.role != null ? getRoleString(Number(decoded.role)) : null;
-
     yield put(
       updateSession({
         isAuthenticated: true,
-        role: 1,
+        role: Number(decoded.role) ?? null,
         // currentUser: username,
       }),
     );

@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
+import { Link } from 'react-router-dom';
 
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
@@ -42,7 +43,7 @@ const Users = ({ dispatchFetchUsers, error, status, users }) => {
         <ul>
           {users.map(({ id, username }) => (
             <li>
-              <a href={`http://localhost:3000/users/${id}`}>{username}</a>
+              <Link to={`/users/${id}`}>{username}</Link>
             </li>
           ))}
         </ul>

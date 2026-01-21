@@ -1,11 +1,10 @@
 // Navigation.jsx
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useInjectSaga } from 'utils/injectSaga';
-import { useAuth } from 'utils/useAuth';
 
 import BobbinsHeader from './bobbinsHeader.png';
 import Break from './Break';
@@ -19,6 +18,7 @@ import LogoutButton from './LogoutButton';
 
 import saga from '../App/saga';
 import { logout } from '../App/actions';
+import { ROLE } from '../App/roles';
 
 const AppWrapper = styled.div`
   max-width: calc(768px + 16px * 2);
@@ -35,8 +35,10 @@ const key = 'main';
 function Navigation({ dispatchLogout }) {
   useInjectSaga({ key, saga });
   const navigate = useNavigate();
-  const { isAuthenticated, role } = useAuth(); // Using isAuthenticated from useAuth hook
-  console.log('NAV ROLE', role);
+  const isAuthenticated = useSelector(state => state.global.isAuthenticated);
+  const role = useSelector(state => state.global.role);
+  const isAdmin = isAuthenticated && Number(role) === ROLE.ADMIN;
+
   return (
     <AppWrapper>
       <HeaderContainer>
@@ -48,9 +50,9 @@ function Navigation({ dispatchLogout }) {
             <HeaderLink $hasTopMargin to="/dashboard">
               Home
             </HeaderLink>
-            <HeaderLink $hasTopMargin to="/features">
+            {/* <HeaderLink $hasTopMargin to="/features">
               Features
-            </HeaderLink>
+            </HeaderLink> */}
             <HeaderLink $hasTopMargin to="/about">
               About
             </HeaderLink>
@@ -71,7 +73,7 @@ function Navigation({ dispatchLogout }) {
             )}
           </LinkWrapper>
           <Break />
-          {role === 'admin' && (
+          {isAdmin && (
             <LinkWrapper>
               <HeaderLink to="/admin">Admin</HeaderLink>
               <HeaderLink to="/upload">Upload</HeaderLink>

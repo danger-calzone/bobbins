@@ -1,5 +1,5 @@
 /*
- * BobbinPage
+ * Bobbin
  *
  */
 

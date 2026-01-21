@@ -38,7 +38,7 @@ import {
 
 const key = 'login';
 
-const LoginPage = ({
+const Login = ({
   error,
   dispatchLoginRequest,
   dispatchOnChange,
@@ -120,7 +120,7 @@ const LoginPage = ({
   );
 };
 
-LoginPage.propTypes = {
+Login.propTypes = {
   error: PropTypes.string,
   dispatchLoginRequest: PropTypes.func.isRequired,
   dispatchOnChange: PropTypes.func.isRequired,
@@ -156,4 +156,4 @@ const withConnect = connect(
 export default compose(
   withConnect,
   memo,
-)(LoginPage);
+)(Login);
